@@ -1,0 +1,166 @@
+Session-1
+
+
+
+______________________________________________________________________________________________________________________________________________________________________________
+Session-2
+
+1]
+using System;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        //Type your code here
+        int n = int.Parse(Console.ReadLine());
+        string[] skills = new string[n];
+        for(int i=0;i<n;i++){
+            skills[i] = Console.ReadLine();
+        }
+        Dictionary<string, List<string>> groups = new Dictionary<string, List<string>>();
+        foreach(string skill in skills){
+            string key = new string(skill.ToLower().Replace(" ","").OrderBy(c=>c).ToArray());
+            if(!groups.ContainsKey(key)){
+                groups[key] = new List<string>();
+            }
+            groups[key].Add(skill);
+        }
+        foreach(var group in groups.Values){
+            Console.WriteLine("Group: "+string.Join(", ", group));
+        }
+
+    }
+}
+
+
+2]
+using System;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        //Type your code here
+        string input = Console.ReadLine();
+        int alphanumericCount = 0;
+        int nonAlphanumericCount = 0;
+
+        foreach(char c in input){
+            if(char.IsLetterOrDigit(c)){
+                alphanumericCount++;
+            }
+            else{
+                nonAlphanumericCount++;
+            }
+        }
+        Console.WriteLine("Alphanumeric characters: "+ alphanumericCount);
+        Console.WriteLine("Non-alphanumeric characters: "+ nonAlphanumericCount);
+
+    }
+}
+
+
+3]
+using System;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        //Type your code here
+        string input = Console.ReadLine();
+        if(string.IsNullOrEmpty(input)){
+            Console.WriteLine("Compressed string: ");
+            return;
+        }
+        string compressed = "";
+        int count = 1;
+
+        for(int i=1; i<input.Length;i++){
+            if(input[i]==input[i-1])
+            {
+                count++;
+            }
+            else{
+                compressed += input[i-1]+count.ToString();
+                count=1;
+            }
+        }
+        compressed += input[input.Length-1]+count.ToString();
+        Console.WriteLine("Compressed string: "+(compressed.Length<input.Length?compressed:input));
+    }
+}
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+Session-3
+
+1]
+using System;
+using System.Text;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        //Type your code here
+        string input = Console.ReadLine();
+        StringBuilder reversed = new StringBuilder();
+
+        for(int i=input.Length-1; i>=0;i--)
+        {
+            reversed.Append(input[i]);
+        }
+        Console.WriteLine(reversed.ToString());
+    }
+}
+
+
+2]
+using System;
+using System.Text;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        //Type your code here
+        string input = Console.ReadLine();
+        StringBuilder transformed = new StringBuilder(input);
+        string[]  ruleInputs =Console.ReadLine().Split(new[] {' ','\t'},
+        StringSplitOptions.RemoveEmptyEntries);
+        foreach(string rule in ruleInputs)
+        {
+            if(!int.TryParse(rule, out int ruleNum))
+            {
+                Console.WriteLine($"Invalid input '{rule}'! Please enter numbers between 1 and 3");
+                return;
+            }
+            switch(ruleNum)
+            {
+                case 1:
+                transformed = new StringBuilder(transformed.ToString().ToUpper());
+                break;
+
+                case 2:
+                transformed = new StringBuilder(transformed.ToString().ToLower());
+                break;
+
+                case 3:
+                char[] charArray = transformed.ToString().ToCharArray();
+                Array.Reverse(charArray);
+                transformed = new StringBuilder(new string(charArray));
+                break;
+
+                default:
+                Console.WriteLine($"Invalid choice! Please enter a number between 1 and 3.");
+                return;
+            }
+        }
+        Console.WriteLine($"{transformed}");
+    }
+}
+
+
+3]
