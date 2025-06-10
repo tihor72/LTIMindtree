@@ -39,3 +39,99 @@ public class Person{
 }
 _________________________________
 7]week-1,day-5,session-1,q-2
+
+
+
+
+
+
+
+
+session-1 q-3
+
+session 2,
+using System;
+
+public class Car{
+    public string Make{get;set;}
+    public string Model{get;set;}
+    public int Year{get;set;}
+
+    public Car(string make, string model, int year)
+    {
+        this.Make = make;
+        this.Model = model;
+        this.Year = year;
+    }
+    public void DisplayDetails()
+    {
+        Console.WriteLine("Car Details:");
+        Console.WriteLine("Make: "+Make);
+        Console.WriteLine("Model: "+Model);
+        Console.WriteLine("Year: "+Year);
+    }
+
+    public void DisplayAge()
+    {
+        int currentYear = 2024;
+        int age = currentYear - Year;
+        Console.WriteLine("Car Age: "+age+" years");
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        string make = Console.ReadLine();
+        string model = Console.ReadLine();
+        int year = int.Parse(Console.ReadLine());
+
+        Car myCar = new Car(make, model, year);
+
+        myCar.DisplayDetails();
+        myCar.DisplayAge();
+    }
+}
+
+
+
+session-2 q-2
+using System;
+using System.Linq;
+
+public class SumCalculator
+{
+    // Method to calculate sum of integers
+    public int GetSum(int[] numbers)
+    {
+        return numbers.Sum();
+    }
+
+    // Method to calculate sum of doubles
+    public double GetSum(double[] numbers)
+    {
+        return numbers.Sum();
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // Read and parse integer input
+        string intInput = Console.ReadLine();
+        int[] intArray = intInput.Split(' ').Select(int.Parse).ToArray();
+
+        // Read and parse double input
+        string doubleInput = Console.ReadLine();
+        double[] doubleArray = doubleInput.Split(' ').Select(double.Parse).ToArray();
+
+        // Create calculator object
+        SumCalculator calculator = new SumCalculator();
+
+        // Display results
+        Console.WriteLine("Sum of integers: " + calculator.GetSum(intArray));
+        Console.WriteLine("Sum of doubles: " + calculator.GetSum(doubleArray));
+    }
+}
