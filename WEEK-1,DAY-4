@@ -164,3 +164,24 @@ public class Program
 
 
 3]
+using System;
+using System.Text;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+       string str = Console.ReadLine();
+       string del = Console.ReadLine();
+       StringBuilder res = new StringBuilder();
+       foreach(char c in str)
+       {
+        
+          if(!del.Contains(c))
+          {
+            res.Append(c);
+          }
+       }
+       Console.WriteLine(res.ToString());
+    }
+}
