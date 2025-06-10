@@ -48,8 +48,6 @@ _________________________________
 
 
 session-1 q-3
-
-session 2,
 using System;
 
 public class Car{
@@ -95,6 +93,63 @@ public class Program
 }
 
 
+session 2 q 1
+using Systesession 2 q 1
+using System;
+using System.Globalization;
+
+public class StringConverter
+{
+    // Convert to uppercase
+    public string ConvertString(string input)
+    {
+        return input.ToUpper();
+    }
+
+    // Convert to lowercase
+    public string ConvertString(string input, bool toLower)
+    {
+        return input.ToLower();
+    }
+
+    // Convert to title case
+    public string ConvertString(string input, int toTitleCase)
+    {
+        TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+        return textInfo.ToTitleCase(input.ToLower());
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // Read input
+        string input = Console.ReadLine();
+        int choice = int.Parse(Console.ReadLine());
+
+        // Create StringConverter object
+        StringConverter converter = new StringConverter();
+
+        // Process choice
+        if (choice == 1)
+        {
+            Console.WriteLine(converter.ConvertString(input));
+        }
+        else if (choice == 2)
+        {
+            Console.WriteLine(converter.ConvertString(input, true));
+        }
+        else if (choice == 3)
+        {
+            Console.WriteLine(converter.ConvertString(input, 1));
+        }
+        else
+        {
+            Console.WriteLine("Invalid choice.");
+        }
+    }
+}
 
 session-2 q-2
 using System;
@@ -133,5 +188,204 @@ public class Program
         // Display results
         Console.WriteLine("Sum of integers: " + calculator.GetSum(intArray));
         Console.WriteLine("Sum of doubles: " + calculator.GetSum(doubleArray));
+    }
+}
+
+session 2 q 3
+using System;
+
+public class Calculator
+{
+    // Method to add two integers
+    public int Add(int x, int y)
+    {
+        return x + y;
+    }
+
+    // Method to add two doubles
+    public double Add(double x, double y)
+    {
+        return x + y;
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // Read user choice
+        int choice = int.Parse(Console.ReadLine());
+
+        Calculator calc = new Calculator();
+
+        if (choice == 1)
+        {
+            // Read two integers
+            int x = int.Parse(Console.ReadLine());
+            int y = int.Parse(Console.ReadLine());
+
+            // Output integer sum
+            Console.WriteLine(calc.Add(x, y));
+        }
+        else if (choice == 2)
+        {
+            // Read two doubles
+            double x = double.Parse(Console.ReadLine());
+            double y = double.Parse(Console.ReadLine());
+
+            // Output double sum
+            Console.WriteLine(calc.Add(x, y));
+        }
+        else
+        {
+            Console.WriteLine("Invalid choice.");
+        }
+    }
+}
+m;
+using System.Globalization;
+
+public class StringConverter
+{
+    // Convert to uppercase
+    public string ConvertString(string input)
+    {
+        return input.ToUpper();
+    }
+
+    // Convert to lowercase
+    public string ConvertString(string input, bool toLower)
+    {
+        return input.ToLower();
+    }
+
+    // Convert to title case
+    public string ConvertString(string input, int toTitleCase)
+    {
+        TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+        return textInfo.ToTitleCase(input.ToLower());
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // Read input
+        string input = Console.ReadLine();
+        int choice = int.Parse(Console.ReadLine());
+
+        // Create StringConverter object
+        StringConverter converter = new StringConverter();
+
+        // Process choice
+        if (choice == 1)
+        {
+            Console.WriteLine(converter.ConvertString(input));
+        }
+        else if (choice == 2)
+        {
+            Console.WriteLine(converter.ConvertString(input, true));
+        }
+        else if (choice == 3)
+        {
+            Console.WriteLine(converter.ConvertString(input, 1));
+        }
+        else
+        {
+            Console.WriteLine("Invalid choice.");
+        }
+    }
+}
+
+session-2 q-2
+using System;
+using System.Linq;
+
+public class SumCalculator
+{
+    // Method to calculate sum of integers
+    public int GetSum(int[] numbers)
+    {
+        return numbers.Sum();
+    }
+
+    // Method to calculate sum of doubles
+    public double GetSum(double[] numbers)
+    {
+        return numbers.Sum();
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // Read and parse integer input
+        string intInput = Console.ReadLine();
+        int[] intArray = intInput.Split(' ').Select(int.Parse).ToArray();
+
+        // Read and parse double input
+        string doubleInput = Console.ReadLine();
+        double[] doubleArray = doubleInput.Split(' ').Select(double.Parse).ToArray();
+
+        // Create calculator object
+        SumCalculator calculator = new SumCalculator();
+
+        // Display results
+        Console.WriteLine("Sum of integers: " + calculator.GetSum(intArray));
+        Console.WriteLine("Sum of doubles: " + calculator.GetSum(doubleArray));
+    }
+}
+
+session 2 q 3
+using System;
+
+public class Calculator
+{
+    // Method to add two integers
+    public int Add(int x, int y)
+    {
+        return x + y;
+    }
+
+    // Method to add two doubles
+    public double Add(double x, double y)
+    {
+        return x + y;
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // Read user choice
+        int choice = int.Parse(Console.ReadLine());
+
+        Calculator calc = new Calculator();
+
+        if (choice == 1)
+        {
+            // Read two integers
+            int x = int.Parse(Console.ReadLine());
+            int y = int.Parse(Console.ReadLine());
+
+            // Output integer sum
+            Console.WriteLine(calc.Add(x, y));
+        }
+        else if (choice == 2)
+        {
+            // Read two doubles
+            double x = double.Parse(Console.ReadLine());
+            double y = double.Parse(Console.ReadLine());
+
+            // Output double sum
+            Console.WriteLine(calc.Add(x, y));
+        }
+        else
+        {
+            Console.WriteLine("Invalid choice.");
+        }
     }
 }
