@@ -18,7 +18,7 @@ public class Program
         for(int i=0;i<n;i++){
             skills[i] = Console.ReadLine();
         }
-        Dictionary<string, List<string>> groups = new Dictionary<string, List<string>>();
+        Dictionary<string, List<string>> groups = new Dictionary<>();
         foreach(string skill in skills){
             string key = new string(skill.ToLower().Replace(" ","").OrderBy(c=>c).ToArray());
             if(!groups.ContainsKey(key)){
@@ -121,44 +121,37 @@ public class Program
 using System;
 using System.Text;
 
-public class Program
-{
-    public static void Main(string[] args)
-    {
-        //Type your code here
+class Program {
+    static void Main() {
         string input = Console.ReadLine();
         StringBuilder transformed = new StringBuilder(input);
-        string[]  ruleInputs =Console.ReadLine().Split(new[] {' ','\t'},
-        StringSplitOptions.RemoveEmptyEntries);
-        foreach(string rule in ruleInputs)
-        {
-            if(!int.TryParse(rule, out int ruleNum))
-            {
+        string[] rules = Console.ReadLine().Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (string rule in rules) {
+            if (!int.TryParse(rule, out int n)) {
                 Console.WriteLine($"Invalid input '{rule}'! Please enter numbers between 1 and 3");
                 return;
             }
-            switch(ruleNum)
-            {
+
+            switch (n) {
                 case 1:
-                transformed = new StringBuilder(transformed.ToString().ToUpper());
-                break;
-
+                    transformed = new StringBuilder(transformed.ToString().ToUpper());
+                    break;
                 case 2:
-                transformed = new StringBuilder(transformed.ToString().ToLower());
-                break;
-
+                    transformed = new StringBuilder(transformed.ToString().ToLower());
+                    break;
                 case 3:
-                char[] charArray = transformed.ToString().ToCharArray();
-                Array.Reverse(charArray);
-                transformed = new StringBuilder(new string(charArray));
-                break;
-
+                    char[] arr = transformed.ToString().ToCharArray();
+                    Array.Reverse(arr);
+                    transformed = new StringBuilder(new string(arr));
+                    break;
                 default:
-                Console.WriteLine($"Invalid choice! Please enter a number between 1 and 3.");
-                return;
+                    Console.WriteLine("Invalid choice! Please enter a number between 1 and 3.");
+                    return;
             }
         }
-        Console.WriteLine($"{transformed}");
+
+        Console.WriteLine($"Compressed string: {transformed}");
     }
 }
 
