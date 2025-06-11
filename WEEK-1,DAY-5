@@ -571,3 +571,100 @@ public class Program
         }
     }
 }
+
+Weekly assessment-
+using System;
+
+public class People
+{
+    public string Name { get; set; }
+    public int Birth { get; set; }
+
+    public People(string name, int birth)
+    {
+        Name = name;
+        Birth = birth;
+    }
+}
+
+public class PartTime : People
+{
+    public string Department { get; set; }
+    public string Account { get; set; }
+
+    public PartTime(string name, int birth, string department, string account)
+        : base(name, birth)
+    {
+        Department = department;
+        Account = account;
+    }
+
+    public void DisplayInfo()
+    {
+        Console.WriteLine("\n--- Part-Time Employee ---");
+        Console.WriteLine("Name: " + Name);
+        Console.WriteLine("Birth Year: " + Birth);
+        Console.WriteLine("Department: " + Department);
+        Console.WriteLine("Account Status: " + Account);
+
+        if (Account.ToLower() != "active")
+        {
+            Console.WriteLine("⚠️ Warning: Account is not active.");
+        }
+    }
+}
+
+public class FullTime : People
+{
+    public string Department { get; set; }
+    public string Fees { get; set; }
+
+    public FullTime(string name, int birth, string department, string fees)
+        : base(name, birth)
+    {
+        Department = department;
+        Fees = fees;
+    }
+
+    public void DisplayInfo()
+    {
+        Console.WriteLine("\n--- Full-Time Employee ---");
+        Console.WriteLine("Name: " + Name);
+        Console.WriteLine("Birth Year: " + Birth);
+        Console.WriteLine("Department: " + Department);
+        Console.WriteLine("Fees Status: " + Fees);
+
+        if (Fees.ToLower() != "paid")
+        {
+            Console.WriteLine("⚠️ Warning: Fees not paid.");
+        }
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // Input for PartTime
+        Console.WriteLine("Enter Part-Time Employee Details:");
+        string ptName = Console.ReadLine();
+        int ptBirth = int.Parse(Console.ReadLine());
+        string ptDept = Console.ReadLine();
+        string ptAccount = Console.ReadLine();
+
+        // Input for FullTime
+        Console.WriteLine("Enter Full-Time Employee Details:");
+        string ftName = Console.ReadLine();
+        int ftBirth = int.Parse(Console.ReadLine());
+        string ftDept = Console.ReadLine();
+        string ftFees = Console.ReadLine();
+
+        // Create objects
+        PartTime pt = new PartTime(ptName, ptBirth, ptDept, ptAccount);
+        FullTime ft = new FullTime(ftName, ftBirth, ftDept, ftFees);
+
+        // Display info
+        pt.DisplayInfo();
+        ft.DisplayInfo();
+    }
+}
