@@ -242,3 +242,102 @@ public class Program
         }
     }
 }
+
+session 3 q 1
+using System;
+
+public class Cloth
+{
+    public int ID { get; set; }
+
+    public Cloth(int id)
+    {
+        ID = id;
+    }
+}
+
+public class Men : Cloth
+{
+    public int Size { get; set; }
+    public string ReturnCloth { get; set; } = "YES";
+
+    public Men(int id, int size) : base(id)
+    {
+        Size = size;
+    }
+
+    public void DisplayInfo()
+    {
+        Console.WriteLine("MEN ID: " + ID);
+        Console.WriteLine("Size: " + Size);
+        Console.WriteLine("Return Option within a Week: " + ReturnCloth);
+    }
+}
+
+public class Women : Cloth
+{
+    public int Size { get; set; }
+    public string MaterialType { get; set; }
+    public string ReturnCloth { get; set; } = "YES";
+
+    public Women(int id, int size, string materialType) : base(id)
+    {
+        Size = size;
+        MaterialType = materialType;
+    }
+
+    public void DisplayInfo()
+    {
+        Console.WriteLine("Women Cloth ID: " + ID);
+        Console.WriteLine("Size: " + Size);
+        Console.WriteLine("Material Type: " + MaterialType);
+        Console.WriteLine("Return Option within a Week: " + ReturnCloth);
+    }
+}
+
+public class Kids : Cloth
+{
+    public int Size { get; set; }
+    public string ReturnCloth { get; set; } = "NO";
+
+    public Kids(int id, int size) : base(id)
+    {
+        Size = size;
+    }
+
+    public void DisplayInfo()
+    {
+        Console.WriteLine("KID Cloth ID: " + ID);
+        Console.WriteLine("Size: " + Size);
+        Console.WriteLine("Return Option within a Week: " + ReturnCloth);
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // Men input
+        int menId = int.Parse(Console.ReadLine());
+        int menSize = int.Parse(Console.ReadLine());
+
+        // Women input
+        int womenId = int.Parse(Console.ReadLine());
+        int womenSize = int.Parse(Console.ReadLine());
+        string materialType = Console.ReadLine();
+
+        // Kids input
+        int kidId = int.Parse(Console.ReadLine());
+        int kidSize = int.Parse(Console.ReadLine());
+
+        // Create instances
+        Men men = new Men(menId, menSize);
+        Women women = new Women(womenId, womenSize, materialType);
+        Kids kids = new Kids(kidId, kidSize);
+
+        // Display details
+        men.DisplayInfo();
+        women.DisplayInfo();
+        kids.DisplayInfo();
+    }
+}
