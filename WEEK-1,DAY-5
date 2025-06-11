@@ -1,0 +1,573 @@
+session-1  q-1
+
+
+using System;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Person person = new Person();
+
+        person.Name = Console.ReadLine();
+        person.Age = int.Parse(Console.ReadLine());
+        person.Address = Console.ReadLine();
+
+        Console.WriteLine("Person's Information:");
+        Console.WriteLine("Name: "+person.Name);
+        Console.WriteLine("Age: "+person.Age);
+        Console.WriteLine("Address: "+person.Address);
+    }
+}
+
+public class Person{
+
+    private string name;
+    private int age;
+    private string address;
+
+    public string Name{
+        get{return name;}
+        set{name = value;}
+    }
+    public int Age{
+        get{return age;}
+        set{age = value;}
+    }
+    public string Address{
+        get{return address;}
+        set{address=value;}
+    }
+}
+
+
+session-1,q-2
+
+using System;
+public class Student{
+    public string Name;
+    public int Age;
+    public char Grade;
+    public Student(){
+        
+        Name="Hellen Doe";
+        Age=21;
+        Grade='A';
+        }
+    public void display(){
+      Console.WriteLine("Name: "+Name);
+        Console.WriteLine("Age: "+Age);
+        Console.WriteLine("Grade: "+Grade);
+    }
+    public Student(string name, int age,char grade){
+        
+        Name=name;
+        Age=age;
+        Grade=grade;}
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        
+        string inp1=Console.ReadLine();
+        int inp2=int.Parse(Console.ReadLine());
+        char inp3=Console.ReadLine()[0];
+        char inp4=char.ToUpper(inp3);
+        
+        Console.WriteLine("Default Student:");
+        Student s1=new Student();
+        s1.display();
+        
+        
+        Console.WriteLine("New Student:");
+        Student s2=new Student(inp1,inp2,inp4);
+        s2.display();
+    }
+}
+
+
+session-1 q-3
+using System;
+
+public class Car{
+    public string Make{get;set;}
+    public string Model{get;set;}
+    public int Year{get;set;}
+
+    public Car(string make, string model, int year)
+    {
+        this.Make = make;
+        this.Model = model;
+        this.Year = year;
+    }
+    public void DisplayDetails()
+    {
+        Console.WriteLine("Car Details:");
+        Console.WriteLine("Make: "+Make);
+        Console.WriteLine("Model: "+Model);
+        Console.WriteLine("Year: "+Year);
+    }
+
+    public void DisplayAge()
+    {
+        int currentYear = 2024;
+        int age = currentYear - Year;
+        Console.WriteLine("Car Age: "+age+" years");
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        string make = Console.ReadLine();
+        string model = Console.ReadLine();
+        int year = int.Parse(Console.ReadLine());
+
+        Car myCar = new Car(make, model, year);
+
+        myCar.DisplayDetails();
+        myCar.DisplayAge();
+    }
+}
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+session-2 q-1
+
+using System;
+using System.Globalization;
+
+public class StringConverter
+{
+    // Convert to uppercase
+    public string ConvertString(string input)
+    {
+        return input.ToUpper();
+    }
+
+    // Convert to lowercase
+    public string ConvertString(string input, bool toLower)
+    {
+        return input.ToLower();
+    }
+
+    // Convert to title case
+    public string ConvertString(string input, int toTitleCase)
+    {
+        TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+        return textInfo.ToTitleCase(input.ToLower());
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // Read input
+        string input = Console.ReadLine();
+        int choice = int.Parse(Console.ReadLine());
+
+        // Create StringConverter object
+        StringConverter converter = new StringConverter();
+
+        // Process choice
+        if (choice == 1)
+        {
+            Console.WriteLine(converter.ConvertString(input));
+        }
+        else if (choice == 2)
+        {
+            Console.WriteLine(converter.ConvertString(input, true));
+        }
+        else if (choice == 3)
+        {
+            Console.WriteLine(converter.ConvertString(input, 1));
+        }
+        else
+        {
+            Console.WriteLine("Invalid choice.");
+        }
+    }
+}
+
+
+session-2 q-2
+
+
+using System;
+using System.Linq;
+
+public class SumCalculator
+{
+    // Method to calculate sum of integers
+    public int GetSum(int[] numbers)
+    {
+        return numbers.Sum();
+    }
+
+    // Method to calculate sum of doubles
+    public double GetSum(double[] numbers)
+    {
+        return numbers.Sum();
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // Read and parse integer input
+        string intInput = Console.ReadLine();
+        int[] intArray = intInput.Split(' ').Select(int.Parse).ToArray();
+
+        // Read and parse double input
+        string doubleInput = Console.ReadLine();
+        double[] doubleArray = doubleInput.Split(' ').Select(double.Parse).ToArray();
+
+        // Create calculator object
+        SumCalculator calculator = new SumCalculator();
+
+        // Display results
+        Console.WriteLine("Sum of integers: " + calculator.GetSum(intArray));
+        Console.WriteLine("Sum of doubles: " + calculator.GetSum(doubleArray));
+    }
+}
+
+
+session-2 q-3
+
+
+using System;
+
+public class Calculator
+{
+    // Method to add two integers
+    public int Add(int x, int y)
+    {
+        return x + y;
+    }
+
+    // Method to add two doubles
+    public double Add(double x, double y)
+    {
+        return x + y;
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // Read user choice
+        int choice = int.Parse(Console.ReadLine());
+
+        Calculator calc = new Calculator();
+
+        if (choice == 1)
+        {
+            // Read two integers
+            int x = int.Parse(Console.ReadLine());
+            int y = int.Parse(Console.ReadLine());
+
+            // Output integer sum
+            Console.WriteLine(calc.Add(x, y));
+        }
+        else if (choice == 2)
+        {
+            // Read two doubles
+            double x = double.Parse(Console.ReadLine());
+            double y = double.Parse(Console.ReadLine());
+
+            // Output double sum
+            Console.WriteLine(calc.Add(x, y));
+        }
+        else
+        {
+            Console.WriteLine("Invalid choice.");
+        }
+    }
+}
+
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+session-3 q-1
+
+
+using System;
+
+public class Cloth
+{
+    public int ID { get; set; }
+
+    public Cloth(int id)
+    {
+        ID = id;
+    }
+}
+
+public class Men : Cloth
+{
+    public int Size { get; set; }
+    public string ReturnCloth { get; set; } = "YES";
+
+    public Men(int id, int size) : base(id)
+    {
+        Size = size;
+    }
+
+    public void DisplayInfo()
+    {
+        Console.WriteLine("MEN ID: " + ID);
+        Console.WriteLine("Size: " + Size);
+        Console.WriteLine("Return Option within a Week: " + ReturnCloth);
+    }
+}
+
+public class Women : Cloth
+{
+    public int Size { get; set; }
+    public string MaterialType { get; set; }
+    public string ReturnCloth { get; set; } = "YES";
+
+    public Women(int id, int size, string materialType) : base(id)
+    {
+        Size = size;
+        MaterialType = materialType;
+    }
+
+    public void DisplayInfo()
+    {
+        Console.WriteLine("Women Cloth ID: " + ID);
+        Console.WriteLine("Size: " + Size);
+        Console.WriteLine("Material Type: " + MaterialType);
+        Console.WriteLine("Return Option within a Week: " + ReturnCloth);
+    }
+}
+
+public class Kids : Cloth
+{
+    public int Size { get; set; }
+    public string ReturnCloth { get; set; } = "NO";
+
+    public Kids(int id, int size) : base(id)
+    {
+        Size = size;
+    }
+
+    public void DisplayInfo()
+    {
+        Console.WriteLine("KID Cloth ID: " + ID);
+        Console.WriteLine("Size: " + Size);
+        Console.WriteLine("Return Option within a Week: " + ReturnCloth);
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // Men input
+        int menId = int.Parse(Console.ReadLine());
+        int menSize = int.Parse(Console.ReadLine());
+
+        // Women input
+        int womenId = int.Parse(Console.ReadLine());
+        int womenSize = int.Parse(Console.ReadLine());
+        string materialType = Console.ReadLine();
+
+        // Kids input
+        int kidId = int.Parse(Console.ReadLine());
+        int kidSize = int.Parse(Console.ReadLine());
+
+        // Create instances
+        Men men = new Men(menId, menSize);
+        Women women = new Women(womenId, womenSize, materialType);
+        Kids kids = new Kids(kidId, kidSize);
+
+        // Display details
+        men.DisplayInfo();
+        women.DisplayInfo();
+        kids.DisplayInfo();
+    }
+}
+
+
+
+session-3 q-2
+
+
+using System;
+
+public class UnitConverter
+{
+    public double Convert(double value, string fromUnit, string toUnit)
+    {
+        fromUnit = fromUnit.ToLower();
+        toUnit = toUnit.ToLower();
+
+        if (fromUnit == "meters" && toUnit == "kilometers") return value * 0.001;
+        else if (fromUnit == "kilometers" && toUnit == "meters") return value * 1000;
+        else if (fromUnit == "miles" && toUnit == "feet") return value * 5280;
+        else if (fromUnit == "feet" && toUnit == "miles") return value / 5280;
+
+        else if (fromUnit == "grams" && toUnit == "kilograms") return value * 0.001;
+        else if (fromUnit == "kilograms" && toUnit == "grams") return value * 1000;
+        else if (fromUnit == "pounds" && toUnit == "ounces") return value * 16;
+        else if (fromUnit == "ounces" && toUnit == "pounds") return value / 16;
+
+        else if (fromUnit == "celsius" && toUnit == "fahrenheit") return (value * 9 / 5) + 32;
+        else if (fromUnit == "fahrenheit" && toUnit == "celsius") return (value - 32) * 5 / 9;
+        else if (fromUnit == "celsius" && toUnit == "kelvin") return value + 273.15;
+        else if (fromUnit == "kelvin" && toUnit == "celsius") return value - 273.15;
+
+        throw new Exception($"Conversion from {fromUnit} to {toUnit} not supported.");
+    }
+
+    public double Convert(double value, string fromUnit)
+    {
+        string category = GetCategory(fromUnit);
+        string defaultUnit = GetDefaultUnit(category);
+        return Convert(value, fromUnit, defaultUnit);
+    }
+
+    private string GetCategory(string unit)
+    {
+        unit = unit.ToLower();
+        switch (unit)
+        {
+            case "meters":
+            case "kilometers":
+            case "miles":
+            case "feet":
+                return "length";
+            case "grams":
+            case "kilograms":
+            case "pounds":
+            case "ounces":
+                return "weight";
+            case "celsius":
+            case "fahrenheit":
+            case "kelvin":
+                return "temperature";
+            default:
+                throw new Exception("Unknown unit: " + unit);
+        }
+    }
+
+    public string GetDefaultUnit(string category)
+    {
+        switch (category.ToLower())
+        {
+            case "length":
+                return "meters";
+            case "weight":
+                return "kilograms";
+            case "temperature":
+                return "celsius";
+            default:
+                throw new Exception("Unknown category: " + category);
+        }
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        string type = Console.ReadLine().ToLower();
+        double value = double.Parse(Console.ReadLine());
+        string fromUnit = Console.ReadLine();
+        string toUnit = Console.ReadLine();
+
+        UnitConverter converter = new UnitConverter();
+        double result;
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(toUnit))
+            {
+                result = converter.Convert(value, fromUnit);
+                string defaultUnit = converter.GetDefaultUnit(type);
+                Console.WriteLine($"{value} {fromUnit.ToLower()} is {result:F2} {defaultUnit}.");
+            }
+            else
+            {
+                result = converter.Convert(value, fromUnit, toUnit);
+                Console.WriteLine($"{value} {fromUnit.ToLower()} is {result:F2} {toUnit.ToLower()}.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+}
+
+
+
+Session-3 q-3
+
+
+using System;
+
+public class VehicleRentalEstimator
+{
+    // Estimate cost for a Car
+    public double EstimateCost(int days, int distance)
+    {
+        return days * 50 + distance * 0.2;
+    }
+
+    // Estimate cost for a Truck
+    public double EstimateCost(int days, int distance, bool withDriver)
+    {
+        return days * 100 + distance * 0.5 + (withDriver ? 200 : 0);
+    }
+
+    // Estimate cost for a Bike
+    public double EstimateCost(int days, bool includeInsurance)
+    {
+        return includeInsurance ? (days * 20 + 50) : (days * 20);
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        VehicleRentalEstimator estimator = new VehicleRentalEstimator();
+
+        int choice = int.Parse(Console.ReadLine());
+
+        if (choice == 1) // Car
+        {
+            int days = int.Parse(Console.ReadLine());
+            int distance = int.Parse(Console.ReadLine());
+            double cost = estimator.EstimateCost(days, distance);
+            Console.WriteLine($"The estimated rental cost of the car is: ${cost}");
+        }
+        else if (choice == 2) // Truck
+        {
+            int days = int.Parse(Console.ReadLine());
+            int distance = int.Parse(Console.ReadLine());
+            bool withDriver = bool.Parse(Console.ReadLine());
+            double cost = estimator.EstimateCost(days, distance, withDriver);
+            Console.WriteLine($"The estimated rental cost of the truck is: ${cost}");
+        }
+        else if (choice == 3) // Bike
+        {
+            int days = int.Parse(Console.ReadLine());
+            bool insurance = bool.Parse(Console.ReadLine());
+            double cost = estimator.EstimateCost(days, insurance);
+            Console.WriteLine($"The estimated rental cost of the bike is: ${cost}");
+        }
+        else
+        {
+            Console.WriteLine("Invalid vehicle choice.");
+        }
+    }
+}
