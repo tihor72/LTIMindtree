@@ -1,1 +1,98 @@
+session 1 q-2
 
+using System;
+
+public class Shape
+{
+    public virtual double CalculateArea()
+    {
+        return 0;
+    }
+}
+
+public class Rectangle : Shape
+{
+    private double length;
+    private double width;
+
+    public Rectangle(double length, double width)
+    {
+        this.length = length;
+        this.width = width;
+    }
+
+    public override double CalculateArea()
+    {
+        return length * width;
+    }
+}
+
+public class Circle : Shape
+{
+    private double radius;
+
+    public Circle(double radius)
+    {
+        this.radius = radius;
+    }
+
+    public override double CalculateArea()
+    {
+        return Math.Round(Math.PI * radius * radius, 2);
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        int numberOfShapes;
+        if (!int.TryParse(Console.ReadLine(), out numberOfShapes) || numberOfShapes <= 0)
+        {
+            Console.WriteLine("Please enter a valid positive integer.");
+            return;
+        }
+
+        Shape[] shapes = new Shape[numberOfShapes];
+        int shapeIndex = 0;
+
+        while (shapeIndex < numberOfShapes)
+        {
+            string shapeType = Console.ReadLine().Trim().ToLower();
+
+            if (shapeType == "rectangle")
+            {
+                double length, width;
+                if (!double.TryParse(Console.ReadLine(), out length) ||
+                    !double.TryParse(Console.ReadLine(), out width))
+                {
+                    Console.WriteLine("Invalid Input for length or width. Please enter a numeric value.");
+                    continue;
+                }
+                shapes[shapeIndex++] = new Rectangle(length, width);
+            }
+            else if (shapeType == "circle")
+            {
+                double radius;
+                if (!double.TryParse(Console.ReadLine(), out radius))
+                {
+                    Console.WriteLine("Invalid input for radius. Please enter numeric values.");
+                    continue;
+                }
+                shapes[shapeIndex++] = new Circle(radius);
+            }
+            else
+            {
+                Console.WriteLine("Unknown shape type. Please enter rectangle or circle.");
+            }
+        }
+
+        Console.WriteLine("Areas of the shapes:");
+        for (int i = 0; i < shapes.Length; i++)
+        {
+            string typeName = shapes[i].GetType().Name;
+            double area = shapes[i].CalculateArea();
+            Console.WriteLine($"Area of Shape {i + 1} ({typeName}): {area}");
+        }
+    }
+}
