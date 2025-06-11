@@ -40,11 +40,53 @@ public class Person{
 _________________________________
 7]week-1,day-5,session-1,q-2
 
+using System;
+public class Student{
+    public string Name;
+    public int Age;
+    public char Grade;
+    public Student(){
+        
+        Name="Hellen Doe";
+        Age=21;
+        Grade='A';
+        }
+    public void display(){
+      Console.WriteLine("Name: "+Name);
+        Console.WriteLine("Age: "+Age);
+        Console.WriteLine("Grade: "+Grade);
+    }
+    public Student(string name, int age,char grade){
+        
+        Name=name;
+        Age=age;
+        Grade=grade;}
+       
+        
 
 
+}
 
-
-
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        
+        string inp1=Console.ReadLine();
+        int inp2=int.Parse(Console.ReadLine());
+        char inp3=Console.ReadLine()[0];
+        char inp4=char.ToUpper(inp3);
+        
+        Console.WriteLine("Default Student:");
+        Student s1=new Student();
+        s1.display();
+        
+        
+        Console.WriteLine("New Student:");
+        Student s2=new Student(inp1,inp2,inp4);
+        s2.display();
+    }
+}
 
 
 session-1 q-3
@@ -339,5 +381,114 @@ public class Program
         men.DisplayInfo();
         women.DisplayInfo();
         kids.DisplayInfo();
+    }
+}
+
+
+session 3 q-2
+using System;
+
+public class UnitConverter
+{
+    public double Convert(double value, string fromUnit, string toUnit)
+    {
+        fromUnit = fromUnit.ToLower();
+        toUnit = toUnit.ToLower();
+
+        if (fromUnit == "meters" && toUnit == "kilometers") return value * 0.001;
+        else if (fromUnit == "kilometers" && toUnit == "meters") return value * 1000;
+        else if (fromUnit == "miles" && toUnit == "feet") return value * 5280;
+        else if (fromUnit == "feet" && toUnit == "miles") return value / 5280;
+
+        else if (fromUnit == "grams" && toUnit == "kilograms") return value * 0.001;
+        else if (fromUnit == "kilograms" && toUnit == "grams") return value * 1000;
+        else if (fromUnit == "pounds" && toUnit == "ounces") return value * 16;
+        else if (fromUnit == "ounces" && toUnit == "pounds") return value / 16;
+
+        else if (fromUnit == "celsius" && toUnit == "fahrenheit") return (value * 9 / 5) + 32;
+        else if (fromUnit == "fahrenheit" && toUnit == "celsius") return (value - 32) * 5 / 9;
+        else if (fromUnit == "celsius" && toUnit == "kelvin") return value + 273.15;
+        else if (fromUnit == "kelvin" && toUnit == "celsius") return value - 273.15;
+
+        throw new Exception($"Conversion from {fromUnit} to {toUnit} not supported.");
+    }
+
+    public double Convert(double value, string fromUnit)
+    {
+        string category = GetCategory(fromUnit);
+        string defaultUnit = GetDefaultUnit(category);
+        return Convert(value, fromUnit, defaultUnit);
+    }
+
+    private string GetCategory(string unit)
+    {
+        unit = unit.ToLower();
+        switch (unit)
+        {
+            case "meters":
+            case "kilometers":
+            case "miles":
+            case "feet":
+                return "length";
+            case "grams":
+            case "kilograms":
+            case "pounds":
+            case "ounces":
+                return "weight";
+            case "celsius":
+            case "fahrenheit":
+            case "kelvin":
+                return "temperature";
+            default:
+                throw new Exception("Unknown unit: " + unit);
+        }
+    }
+
+    public string GetDefaultUnit(string category)
+    {
+        switch (category.ToLower())
+        {
+            case "length":
+                return "meters";
+            case "weight":
+                return "kilograms";
+            case "temperature":
+                return "celsius";
+            default:
+                throw new Exception("Unknown category: " + category);
+        }
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        string type = Console.ReadLine().ToLower();
+        double value = double.Parse(Console.ReadLine());
+        string fromUnit = Console.ReadLine();
+        string toUnit = Console.ReadLine();
+
+        UnitConverter converter = new UnitConverter();
+        double result;
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(toUnit))
+            {
+                result = converter.Convert(value, fromUnit);
+                string defaultUnit = converter.GetDefaultUnit(type);
+                Console.WriteLine($"{value} {fromUnit.ToLower()} is {result:F2} {defaultUnit}.");
+            }
+            else
+            {
+                result = converter.Convert(value, fromUnit, toUnit);
+                Console.WriteLine($"{value} {fromUnit.ToLower()} is {result:F2} {toUnit.ToLower()}.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 }
