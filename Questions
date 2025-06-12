@@ -1,1 +1,102 @@
+using System;
 
+public abstract class Laptop
+{
+    public string Brand { get; set; }
+    public string Model { get; set; }
+    public double Price { get; set; }
+    public string Processor { get; set; }
+    public int RAM { get; set; }
+    public int Storage { get; set; }
+
+    public Laptop(string brand, string model, double price, string processor, int ram, int storage)
+    {
+        Brand = brand;
+        Model = model;
+        Price = price;
+        Processor = processor;
+        RAM = ram;
+        Storage = storage;
+    }
+
+    public abstract void DisplayDetails();
+    public abstract void ApplyDiscount(double percentage);
+}
+
+public class GamingLaptop : Laptop
+{
+    public GamingLaptop(string brand, string model, double price, string processor, int ram, int storage)
+        : base(brand, model, price, processor, ram, storage) { }
+
+    public override void DisplayDetails()
+    {
+        Console.WriteLine($"Laptop Details: Brand - {Brand}, Model - {Model}, Price: ${Price}, Processor: {Processor}, RAM: {RAM} GB, Storage: {Storage} GB");
+        Console.WriteLine("Type: Gaming");
+    }
+
+    public override void ApplyDiscount(double percentage)
+    {
+        Price -= Price * (percentage / 100);
+    }
+}
+
+public class BusinessLaptop : Laptop
+{
+    public BusinessLaptop(string brand, string model, double price, string processor, int ram, int storage)
+        : base(brand, model, price, processor, ram, storage) { }
+
+    public override void DisplayDetails()
+    {
+        Console.WriteLine($"Laptop Details: Brand - {Brand}, Model - {Model}, Price: ${Price}, Processor: {Processor}, RAM: {RAM} GB, Storage: {Storage} GB");
+        Console.WriteLine("Type: Business");
+    }
+
+    public override void ApplyDiscount(double percentage)
+    {
+        Price -= Price * (percentage / 100);
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        string brand = Console.ReadLine();
+        string model = Console.ReadLine();
+        double price = Convert.ToDouble(Console.ReadLine());
+        string processor = Console.ReadLine();
+        int ram = Convert.ToInt32(Console.ReadLine());
+        int storage = Convert.ToInt32(Console.ReadLine());
+        string laptopType = Console.ReadLine();
+
+        Laptop laptop = null;
+
+        if (laptopType == "Gaming")
+        {
+            laptop = new GamingLaptop(brand, model, price, processor, ram, storage);
+        }
+        else if (laptopType == "Business")
+        {
+            laptop = new BusinessLaptop(brand, model, price, processor, ram, storage);
+        }
+
+        if (laptop != null)
+        {
+            // Check if discount line is present
+            string discountInput = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(discountInput))
+            {
+                double discount;
+                if (double.TryParse(discountInput, out discount))
+                {
+                    laptop.ApplyDiscount(discount);
+                }
+            }
+
+            laptop.DisplayDetails();
+        }
+    }
+}
+
+
+Session-3 q-2
