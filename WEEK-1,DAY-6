@@ -300,3 +300,381 @@ public class Program
         }
     }
 }
+
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+session-2 q-1
+
+
+using System;
+using System.Collections.Generic;
+
+// Abstract base class
+public abstract class Property
+{
+    public int PropertyId { get; set; }
+    public string Location { get; set; }
+    public double Area { get; set; }
+    public string PropertyType { get; protected set; }
+
+    public Property(int propertyId, string location, double area)
+    {
+        PropertyId = propertyId;
+        Location = location;
+        Area = area;
+    }
+
+    public abstract double CalculatePropertyTax();
+}
+
+// Derived class: Apartment
+public class Apartment : Property
+{
+    public Apartment(int propertyId, string location, double area) : base(propertyId, location, area)
+    {
+        PropertyType = "Apartment";
+    }
+
+    public override double CalculatePropertyTax()
+    {
+        return Math.Round(Area * 0.01, 2);
+    }
+}
+
+// Derived class: House
+public class House : Property
+{
+    public House(int propertyId, string location, double area) : base(propertyId, location, area)
+    {
+        PropertyType = "House";
+    }
+
+    public override double CalculatePropertyTax()
+    {
+        return Math.Round(Area * 0.02, 2);
+    }
+}
+
+// Derived class: CommercialBuilding
+public class CommercialBuilding : Property
+{
+    public CommercialBuilding(int propertyId, string location, double area) : base(propertyId, location, area)
+    {
+        PropertyType = "Commercial Building";
+    }
+
+    public override double CalculatePropertyTax()
+    {
+        return Math.Round(Area * 0.03, 2);
+    }
+}
+
+// Property Manager class
+public class PropertyManager
+{
+    public void PrintPropertyTax(Property property)
+    {
+        double tax = property.CalculatePropertyTax();
+        Console.WriteLine($"Property Tax for {property.PropertyType} (ID: {property.PropertyId}, Location: {property.Location}, Area: {property.Area}): {tax:F2}");
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        List<Property> properties = new List<Property>();
+        PropertyManager manager = new PropertyManager();
+
+        if (!int.TryParse(Console.ReadLine(), out int count) || count <= 0)
+        {
+            Console.WriteLine("Invalid property type.");
+            return;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            if (!int.TryParse(Console.ReadLine(), out int propertyId))
+            {
+                Console.WriteLine("Invalid property type.");
+                continue;
+            }
+
+            string location = Console.ReadLine();
+            if (!double.TryParse(Console.ReadLine(), out double area))
+            {
+                Console.WriteLine("Invalid property type.");
+                continue;
+            }
+
+            string type = Console.ReadLine();
+
+            Property property = null;
+
+            switch (type.Trim().ToLower())
+            {
+                case "apartment":
+                    property = new Apartment(propertyId, location, area);
+                    break;
+                case "house":
+                    property = new House(propertyId, location, area);
+                    break;
+                case "commercial building":
+                    property = new CommercialBuilding(propertyId, location, area);
+                    break;
+                default:
+                    Console.WriteLine("Invalid property type.");
+                    continue;
+            }
+
+            properties.Add(property);
+        }
+
+        foreach (Property p in properties)
+        {
+            manager.PrintPropertyTax(p);
+        }
+    }
+}
+
+
+
+session-2 q-2
+
+using System;
+using System.Collections.Generic;
+
+// Abstract base class
+public abstract class Ticket
+{
+    public int TicketId { get; set; }
+    public string TicketType { get; set; }
+
+    public Ticket(int ticketId, string ticketType)
+    {
+        TicketId = ticketId;
+        TicketType = ticketType;
+    }
+
+    public abstract (double, string) CalculatePrice();
+}
+
+// Child Ticket
+public class ChildTicket : Ticket
+{
+    public ChildTicket(int ticketId) : base(ticketId, "Child") { }
+
+    public override (double, string) CalculatePrice()
+    {
+        return (20, "Free ice cream included");
+    }
+}
+
+// Adult Ticket
+public class AdultTicket : Ticket
+{
+    public AdultTicket(int ticketId) : base(ticketId, "Adult") { }
+
+    public override (double, string) CalculatePrice()
+    {
+        return (50, "Free park map included");
+    }
+}
+
+// Senior Ticket
+public class SeniorTicket : Ticket
+{
+    public SeniorTicket(int ticketId) : base(ticketId, "Senior") { }
+
+    public override (double, string) CalculatePrice()
+    {
+        return (30, "Free wheelchair service included");
+    }
+}
+
+// Ticket Manager
+public class TicketManager
+{
+    public void PrintTicketPrice(Ticket ticket)
+    {
+        var (price, service) = ticket.CalculatePrice();
+        Console.WriteLine($"Price: {price}, Included Service: {service}");
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        List<Ticket> tickets = new List<Ticket>();
+        TicketManager manager = new TicketManager();
+        int totalCost = 0;
+        int ticketIdCounter = 1;
+
+        if (!int.TryParse(Console.ReadLine(), out int count) || count <= 0)
+        {
+            Console.WriteLine("Invalid ticket type");
+            return;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            string type = Console.ReadLine();
+            Ticket ticket = null;
+
+            switch (type.Trim().ToLower())
+            {
+                case "child":
+                    ticket = new ChildTicket(ticketIdCounter++);
+                    break;
+                case "adult":
+                    ticket = new AdultTicket(ticketIdCounter++);
+                    break;
+                case "senior":
+                    ticket = new SeniorTicket(ticketIdCounter++);
+                    break;
+                default:
+                    Console.WriteLine("Invalid ticket type");
+                    continue;
+            }
+
+            tickets.Add(ticket);
+            manager.PrintTicketPrice(ticket);
+            totalCost += (int)ticket.CalculatePrice().Item1;
+        }
+
+        Console.WriteLine($"Total cost: {totalCost}");
+    }
+}
+
+
+session-2 q-3
+
+using System;
+
+public interface IStudent
+{
+    void CalcTotal();
+    void CalcAvg();
+    void CalcGrade();
+    void PrintMarksheet();
+}
+
+public class Student : IStudent
+{
+    private int rno;
+    private string name;
+    private int sub1;
+    private int sub2;
+    private int sub3;
+    private int total;
+    private double average;
+    private string grade;
+
+    public Student(int rno, string name, int sub1, int sub2, int sub3)
+    {
+        this.rno = rno;
+        this.name = name;
+        this.sub1 = sub1;
+        this.sub2 = sub2;
+        this.sub3 = sub3;
+    }
+
+    public void CalcTotal()
+    {
+        total = sub1 + sub2 + sub3;
+    }
+
+    public void CalcAvg()
+    {
+        average = total / 3.0;
+    }
+
+    public void CalcGrade()
+    {
+        if (average > 80)
+            grade = "A";
+        else if (average >= 60)
+            grade = "B";
+        else if (average >= 40)
+            grade = "C";
+        else
+            grade = "F";
+    }
+
+    public void PrintMarksheet()
+    {
+        Console.WriteLine($"Roll No: {rno}");
+        Console.WriteLine($"Name: {name}");
+        Console.WriteLine($"Subject 1: {sub1}");
+        Console.WriteLine($"Subject 2: {sub2}");
+        Console.WriteLine($"Subject 3: {sub3}");
+        Console.WriteLine($"Total Marks: {total}");
+        Console.WriteLine($"Average Marks: {average}");
+        Console.WriteLine($"Grade: {grade}");
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        while (true)
+        {
+            int rno, sub1, sub2, sub3;
+            string name;
+
+            // Roll Number
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out rno))
+                    break;
+                else
+                    Console.WriteLine("Invalid Input! Please enter a valid integer for Roll No.");
+            }
+
+            // Name
+            name = Console.ReadLine();
+
+            // Subject 1
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out sub1))
+                    break;
+                else
+                    Console.WriteLine("Invalid input! Please enter a valid integer for Subject 1.");
+            }
+
+            // Subject 2
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out sub2))
+                    break;
+                else
+                    Console.WriteLine("Invalid input! Please enter a valid integer for Subject 2.");
+            }
+
+            // Subject 3
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out sub3))
+                    break;
+                else
+                    Console.WriteLine("Invalid input! Please enter a valid integer for Subject 3.");
+            }
+
+            Student student = new Student(rno, name, sub1, sub2, sub3);
+            student.CalcTotal();
+            student.CalcAvg();
+            student.CalcGrade();
+            student.PrintMarksheet();
+
+            break; // Remove or change this if you want to allow multiple students
+        }
+    }
+}
