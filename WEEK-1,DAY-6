@@ -180,3 +180,120 @@ public class Program
         }
     }
 }
+
+
+using System;
+
+public class Employee
+{
+    protected double hourlyRate;
+    protected double hoursWorked;
+
+    public Employee(double hourlyRate, double hoursWorked)
+    {
+        this.hourlyRate = hourlyRate;
+        this.hoursWorked = hoursWorked;
+    }
+
+    public virtual double CalculateSalary()
+    {
+        return hourlyRate * hoursWorked;
+    }
+}
+
+public class FullTimeEmployee : Employee
+{
+    public FullTimeEmployee(double hourlyRate, double hoursWorked) : base(hourlyRate, hoursWorked) { }
+
+    public override double CalculateSalary()
+    {
+        return hourlyRate * hoursWorked;
+    }
+}
+
+public class PartTimeEmployee : Employee
+{
+    public PartTimeEmployee(double hourlyRate, double hoursWorked) : base(hourlyRate, hoursWorked) { }
+
+    public override double CalculateSalary()
+    {
+        return (hourlyRate * 0.8) * hoursWorked;
+    }
+}
+
+public class Intern : Employee
+{
+    public Intern(double hourlyRate, double hoursWorked) : base(hourlyRate, hoursWorked) { }
+
+    public override double CalculateSalary()
+    {
+        return (hourlyRate * 0.6) * hoursWorked;
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        int numberOfEmployees;
+
+        if (!int.TryParse(Console.ReadLine(), out numberOfEmployees) || numberOfEmployees <= 0)
+        {
+            Console.WriteLine("Please enter a valid positive integer for the number of employees.");
+            return;
+        }
+
+        Employee[] employees = new Employee[numberOfEmployees];
+        int i = 0;
+
+        while (i < numberOfEmployees)
+        {
+            string type = Console.ReadLine().Trim().ToLower();
+            double hourlyRate = 0, hoursWorked = 0;
+
+            if (type != "fulltimeemployee" && type != "parttimeemployee" && type != "intern")
+            {
+                Console.WriteLine("Unknown employee type. Please enter FullTimeEmployee, PartTimeEmployee, or Intern.");
+                continue;
+            }
+
+            // Read hourly rate
+            if (!double.TryParse(Console.ReadLine(), out hourlyRate))
+            {
+                Console.WriteLine("Invalid Input for hourly rate. Please enter a numeric value.");
+                continue;
+            }
+
+            // Read hours worked
+            if (!double.TryParse(Console.ReadLine(), out hoursWorked))
+            {
+                Console.WriteLine("Invalid Input for hours worked. Please enter a numeric value.");
+                continue;
+            }
+
+            // Create appropriate employee object
+            if (type == "fulltimeemployee")
+            {
+                employees[i] = new FullTimeEmployee(hourlyRate, hoursWorked);
+            }
+            else if (type == "parttimeemployee")
+            {
+                employees[i] = new PartTimeEmployee(hourlyRate, hoursWorked);
+            }
+            else if (type == "intern")
+            {
+                employees[i] = new Intern(hourlyRate, hoursWorked);
+            }
+
+            i++;
+        }
+
+        Console.WriteLine("Salaries of the employees:");
+        for (int j = 0; j < numberOfEmployees; j++)
+        {
+            string empType = employees[j].GetType().Name;
+            double salary = employees[j].CalculateSalary();
+            Console.WriteLine($"Salary of Employee {j + 1} ({empType}): {salary}");
+        }
+    }
+}
