@@ -1,1 +1,131 @@
+using System;
+using System.Collections.Generic;
+
+// Abstract base class
+public abstract class Property
+{
+    public int PropertyId { get; set; }
+    public string Location { get; set; }
+    public double Area { get; set; }
+    public string PropertyType { get; protected set; }
+
+    public Property(int propertyId, string location, double area)
+    {
+        PropertyId = propertyId;
+        Location = location;
+        Area = area;
+    }
+
+    public abstract double CalculatePropertyTax();
+}
+
+// Derived class: Apartment
+public class Apartment : Property
+{
+    public Apartment(int propertyId, string location, double area) : base(propertyId, location, area)
+    {
+        PropertyType = "Apartment";
+    }
+
+    public override double CalculatePropertyTax()
+    {
+        return Math.Round(Area * 0.01, 2);
+    }
+}
+
+// Derived class: House
+public class House : Property
+{
+    public House(int propertyId, string location, double area) : base(propertyId, location, area)
+    {
+        PropertyType = "House";
+    }
+
+    public override double CalculatePropertyTax()
+    {
+        return Math.Round(Area * 0.02, 2);
+    }
+}
+
+// Derived class: CommercialBuilding
+public class CommercialBuilding : Property
+{
+    public CommercialBuilding(int propertyId, string location, double area) : base(propertyId, location, area)
+    {
+        PropertyType = "Commercial Building";
+    }
+
+    public override double CalculatePropertyTax()
+    {
+        return Math.Round(Area * 0.03, 2);
+    }
+}
+
+// Property Manager class
+public class PropertyManager
+{
+    public void PrintPropertyTax(Property property)
+    {
+        double tax = property.CalculatePropertyTax();
+        Console.WriteLine($"Property Tax for {property.PropertyType} (ID: {property.PropertyId}, Location: {property.Location}, Area: {property.Area}): {tax:F2}");
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        List<Property> properties = new List<Property>();
+        PropertyManager manager = new PropertyManager();
+
+        if (!int.TryParse(Console.ReadLine(), out int count) || count <= 0)
+        {
+            Console.WriteLine("Invalid property type.");
+            return;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            if (!int.TryParse(Console.ReadLine(), out int propertyId))
+            {
+                Console.WriteLine("Invalid property type.");
+                continue;
+            }
+
+            string location = Console.ReadLine();
+            if (!double.TryParse(Console.ReadLine(), out double area))
+            {
+                Console.WriteLine("Invalid property type.");
+                continue;
+            }
+
+            string type = Console.ReadLine();
+
+            Property property = null;
+
+            switch (type.Trim().ToLower())
+            {
+                case "apartment":
+                    property = new Apartment(propertyId, location, area);
+                    break;
+                case "house":
+                    property = new House(propertyId, location, area);
+                    break;
+                case "commercial building":
+                    property = new CommercialBuilding(propertyId, location, area);
+                    break;
+                default:
+                    Console.WriteLine("Invalid property type.");
+                    continue;
+            }
+
+            properties.Add(property);
+        }
+
+        foreach (Property p in properties)
+        {
+            manager.PrintPropertyTax(p);
+        }
+    }
+}
 
