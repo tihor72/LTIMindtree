@@ -1,1 +1,59 @@
+using System;
+using System.Collections;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        ArrayList studentNames = new ArrayList();
+        string input;
+
+        while (true)
+        {
+            input = Console.ReadLine();
+
+            if (input.Equals("stop", StringComparison.OrdinalIgnoreCase))
+                break;
+
+            if (!IsValidName(input))
+                continue;
+
+            if (IsNameInCollection(studentNames, input))
+            {
+                Console.WriteLine($"{input} is already in the collection.");
+            }
+            else
+            {
+                studentNames.Add(input);
+                Console.WriteLine($"{input} added to the collection.");
+            }
+        }
+
+        DisplayStudentNames(studentNames);
+    }
+
+    private static bool IsValidName(string name)
+    {
+        return !string.IsNullOrWhiteSpace(name);
+    }
+
+    private static bool IsNameInCollection(ArrayList studentNames, string name)
+    {
+        foreach (object item in studentNames)
+        {
+            if (item.ToString().Equals(name, StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+        return false;
+    }
+
+    private static void DisplayStudentNames(ArrayList studentNames)
+    {
+        Console.WriteLine("Unique student names entered:");
+        foreach (object name in studentNames)
+        {
+            Console.WriteLine(name);
+        }
+    }
+}
 
