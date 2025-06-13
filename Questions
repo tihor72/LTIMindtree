@@ -1,59 +1,86 @@
+session-1 q-1:
+
+
 using System;
-using System.Collections;
 
 public class Program
 {
     public static void Main(string[] args)
     {
-        ArrayList studentNames = new ArrayList();
-        string input;
-
-        while (true)
+        try
         {
-            input = Console.ReadLine();
+            // Read the temperature input
+            Console.WriteLine("Enter temperature value:");
+            string input = Console.ReadLine();
+            double temperature = double.Parse(input);
 
-            if (input.Equals("stop", StringComparison.OrdinalIgnoreCase))
-                break;
+            // Read the conversion type
+            Console.WriteLine("Enter conversion type (C for Celsius to Fahrenheit, F for Fahrenheit to Celsius):");
+            string conversionType = Console.ReadLine().ToUpper();
 
-            if (!IsValidName(input))
-                continue;
-
-            if (IsNameInCollection(studentNames, input))
+            // Check the conversion type and perform calculation
+            if (conversionType == "F")
             {
-                Console.WriteLine($"{input} is already in the collection.");
+                double celsius = (temperature - 32) * 5 / 9;
+                Console.WriteLine("Temperature in Celsius: {0:F2}", celsius);
+            }
+            else if (conversionType == "C")
+            {
+                double fahrenheit = (temperature * 9 / 5) + 32;
+                Console.WriteLine("Temperature in Fahrenheit: {0:F2}", fahrenheit);
             }
             else
             {
-                studentNames.Add(input);
-                Console.WriteLine($"{input} added to the collection.");
+                Console.WriteLine("Invalid conversion type. Please enter 'F' or 'C'.");
             }
         }
-
-        DisplayStudentNames(studentNames);
-    }
-
-    private static bool IsValidName(string name)
-    {
-        return !string.IsNullOrWhiteSpace(name);
-    }
-
-    private static bool IsNameInCollection(ArrayList studentNames, string name)
-    {
-        foreach (object item in studentNames)
+        catch (SystemException ex)
         {
-            if (item.ToString().Equals(name, StringComparison.OrdinalIgnoreCase))
-                return true;
-        }
-        return false;
-    }
-
-    private static void DisplayStudentNames(ArrayList studentNames)
-    {
-        Console.WriteLine("Unique student names entered:");
-        foreach (object name in studentNames)
-        {
-            Console.WriteLine(name);
+            Console.WriteLine("Error: Invalid input provided.");
+            Console.WriteLine("Exception Message: " + ex.Message);
         }
     }
 }
+
+
+session-1 q-2
+
+
+
+session-1 q-3
+
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+
+session-2 q-1
+
+
+
+
+
+
+
+session-2 q-2
+
+
+
+
+
+session-2 q-3
+
+
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+session-3 q-1
+
+
+
+session-3 q-2
+
+
+
+
+session-3 q-3
 
