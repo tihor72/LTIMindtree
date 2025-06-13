@@ -1,0 +1,569 @@
+session-1 q-1:
+
+
+using System;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        try
+        {
+            // Read the temperature input
+            Console.WriteLine("Enter temperature value:");
+            string input = Console.ReadLine();
+            double temperature = double.Parse(input);
+
+            // Read the conversion type
+            Console.WriteLine("Enter conversion type (C for Celsius to Fahrenheit, F for Fahrenheit to Celsius):");
+            string conversionType = Console.ReadLine().ToUpper();
+
+            // Check the conversion type and perform calculation
+            if (conversionType == "F")
+            {
+                double celsius = (temperature - 32) * 5 / 9;
+                Console.WriteLine("Temperature in Celsius: {0:F2}", celsius);
+            }
+            else if (conversionType == "C")
+            {
+                double fahrenheit = (temperature * 9 / 5) + 32;
+                Console.WriteLine("Temperature in Fahrenheit: {0:F2}", fahrenheit);
+            }
+            else
+            {
+                Console.WriteLine("Invalid conversion type. Please enter 'F' or 'C'.");
+            }
+        }
+        catch (SystemException ex)
+        {
+            Console.WriteLine("Error: Invalid input provided.");
+            Console.WriteLine("Exception Message: " + ex.Message);
+        }
+    }
+}
+
+
+session-1 q-2
+
+using System;
+
+public class CricketMatch
+{
+    public int[] playerScores = new int[5];
+    public int currentIndex = 0;
+
+    public void AddPlayerScore(int score)
+    {
+        if (score < 0 || score > 50)
+        {
+            throw new ArgumentException("Invalid score. Score must be between 0 and 50.");
+        }
+
+        if (currentIndex >= 5)
+        {
+            throw new InvalidOperationException("Cannot add more than 5 player scores.");
+        }
+
+        playerScores[currentIndex] = score;
+        currentIndex++;
+    }
+
+    public int CalculateTotalScore()
+    {
+        int total = 0;
+        for (int i = 0; i < currentIndex; i++)
+        {
+            total += playerScores[i];
+        }
+        return total;
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        CricketMatch match = new CricketMatch();
+
+        try
+        {
+            // Read input
+            string input = Console.ReadLine();
+            string[] parts = input.Split();
+
+            foreach (string part in parts)
+            {
+                int score = int.Parse(part); // Will throw if non-numeric
+                match.AddPlayerScore(score);
+            }
+
+            // Output total score
+            int totalScore = match.CalculateTotalScore();
+            Console.WriteLine("Total score of the cricket team: " + totalScore);
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: Unexpected input.");
+            Console.WriteLine("Exception Message: " + ex.Message);
+        }
+    }
+}
+
+
+
+session-1 q-3
+
+using System;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        try
+        {
+            // Read and convert first array
+            Console.WriteLine("Enter elements of first array (space-separated):");
+            string input1 = Console.ReadLine();
+            string[] parts1 = input1.Split(' ');
+            int[] numbers1 = Array.ConvertAll(parts1, int.Parse);
+
+            // Read and convert second array
+            Console.WriteLine("Enter elements of second array (space-separated):");
+            string input2 = Console.ReadLine();
+            string[] parts2 = input2.Split(' ');
+            int[] numbers2 = Array.ConvertAll(parts2, int.Parse);
+
+            // Validate equal lengths
+            if (numbers1.Length != numbers2.Length)
+            {
+                Console.WriteLine("Error: Arrays must have the same length for addition.");
+                return;
+            }
+
+            // Compute sum array
+            int[] sumArray = new int[numbers1.Length];
+            for (int i = 0; i < numbers1.Length; i++)
+            {
+                sumArray[i] = numbers1[i] + numbers2[i];
+            }
+
+            // Read index and access element
+            Console.WriteLine("Enter index to access element from sum array:");
+            int index = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Element at index {0} in the sum array: {1}", index, sumArray[index]);
+        }
+        catch (FormatException ex)
+        {
+            Console.WriteLine("Error: Invalid input format. Please enter integers only.");
+            Console.WriteLine("Exception Message: " + ex.Message);
+        }
+        catch (IndexOutOfRangeException ex)
+        {
+            Console.WriteLine("Error: Index out of range for the sum array.");
+            Console.WriteLine("Exception Message: " + ex.Message);
+        }
+    }
+}
+
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+
+session-2 q-1
+
+using System;
+
+// Custom exception for invalid price
+public class InvalidPriceException : Exception
+{
+    public InvalidPriceException() : base("Price must be greater than zero.") { }
+
+    public InvalidPriceException(string message) : base(message) { }
+}
+
+// Custom exception for invalid quantity
+public class InvalidQuantityException : Exception
+{
+    public InvalidQuantityException() : base("Quantity must be greater than zero.") { }
+
+    public InvalidQuantityException(string message) : base(message) { }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        try
+        {
+            // Read price input
+            string priceInput = Console.ReadLine();
+            decimal price = decimal.Parse(priceInput);
+
+            // Validate price
+            if (price <= 0)
+            {
+                throw new InvalidPriceException();
+            }
+
+            // Read quantity input
+            string quantityInput = Console.ReadLine();
+            int quantity = int.Parse(quantityInput);
+
+            // Validate quantity
+            if (quantity < 0)
+            {
+                throw new InvalidQuantityException();
+            }
+
+            // Calculate total cost
+            decimal totalCost = price * quantity;
+
+            // Output rounded to 1 decimal place
+            Console.WriteLine("Total cost is {0:F1}", totalCost);
+        }
+        catch (InvalidPriceException ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+        catch (InvalidQuantityException ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Error: Please enter a valid number.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+}
+
+
+session-2 q-2
+
+using System;
+
+// Custom exception class
+public class InvalidStringException : Exception
+{
+    public InvalidStringException() : base("String must contain only alphabetic characters.") { }
+
+    public InvalidStringException(string message) : base(message) { }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        try
+        {
+            // Read input from user
+            string input = Console.ReadLine();
+
+            // Validate: Check if string contains only alphabetic characters
+            foreach (char c in input)
+            {
+                if (!char.IsLetter(c))
+                {
+                    throw new InvalidStringException();
+                }
+            }
+
+            // Count vowels (case-insensitive)
+            int vowelCount = 0;
+            string lowerInput = input.ToLower();
+            foreach (char c in lowerInput)
+            {
+                if ("aeiou".Contains(c))
+                {
+                    vowelCount++;
+                }
+            }
+
+            // Output result
+            Console.WriteLine("Number of vowels: " + vowelCount);
+        }
+        catch (InvalidStringException ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+}
+
+
+
+
+session-2 q-3
+
+using System;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        try
+        {
+            // Read number of tickets
+            string ticketsInput = Console.ReadLine();
+            int numberOfTickets = int.Parse(ticketsInput);
+
+            // Validate number of tickets
+            if (numberOfTickets <= 0)
+            {
+                throw new ArgumentException("Number of tickets must be greater than 0.");
+            }
+
+            // Read price per ticket
+            string priceInput = Console.ReadLine();
+            decimal pricePerTicket = decimal.Parse(priceInput);
+
+            // Validate price per ticket
+            if (pricePerTicket <= 0)
+            {
+                throw new ArgumentException("Price per ticket must be greater than 0.");
+            }
+
+            // Calculate total cost
+            decimal totalCost = numberOfTickets * pricePerTicket;
+
+            // Output
+            Console.WriteLine("Total ticket cost: " + totalCost);
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Error: Please enter a valid number.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+}
+
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+session-3 q-1
+
+using System;
+
+public class Student
+{
+    private int grade;
+
+    // Public event triggered when grade is changed
+    public event Action<int> GradeChanged;
+
+    // Method to update grade
+    public void UpdateGrade(int newGrade)
+    {
+        grade = newGrade;
+        // Trigger the event
+        GradeChanged?.Invoke(grade);
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Student student = new Student();
+
+        // Subscribe to the GradeChanged event
+        student.GradeChanged += (int newGrade) =>
+        {
+            Console.WriteLine($"Grade changed to: {newGrade}");
+        };
+
+        // Read input and handle invalid input
+        string input = Console.ReadLine();
+
+        if (int.TryParse(input, out int grade))
+        {
+            student.UpdateGrade(grade);
+        }
+        else
+        {
+            Console.WriteLine("Invalid grade.");
+        }
+    }
+}
+
+
+session-3 q-2
+
+using System;
+
+public class Program
+{
+    // Delegate definition
+    public delegate double ArithmeticOperation(double a, double b);
+
+    // Add method
+    public static double Add(double a, double b)
+    {
+        return a + b;
+    }
+
+    // Subtract method
+    public static double Subtract(double a, double b)
+    {
+        return a - b;
+    }
+
+    // Multiply method
+    public static double Multiply(double a, double b)
+    {
+        return a * b;
+    }
+
+    // Divide method with zero check
+    public static double Divide(double a, double b)
+    {
+        if (b == 0)
+            throw new DivideByZeroException("Division by zero is not allowed.");
+        return a / b;
+    }
+
+    // PerformOperation method
+    public static double PerformOperation(ArithmeticOperation operation, double a, double b)
+    {
+        return operation(a, b);
+    }
+
+    // Main method
+    public static void Main(string[] args)
+    {
+        try
+        {
+            // Read first number
+            double num1 = Convert.ToDouble(Console.ReadLine());
+
+            // Read second number
+            double num2 = Convert.ToDouble(Console.ReadLine());
+
+            // Read operation
+            string operation = Console.ReadLine().ToLower();
+
+            ArithmeticOperation opDelegate = null;
+
+            // Assign appropriate method to delegate
+            switch (operation)
+            {
+                case "add":
+                    opDelegate = Add;
+                    break;
+                case "subtract":
+                    opDelegate = Subtract;
+                    break;
+                case "multiply":
+                    opDelegate = Multiply;
+                    break;
+                case "divide":
+                    opDelegate = Divide;
+                    break;
+                default:
+                    Console.WriteLine("Invalid operation");
+                    return;
+            }
+
+            // Perform operation
+            double result = PerformOperation(opDelegate, num1, num2);
+            Console.WriteLine($"The result is: {result:F2}");
+        }
+        catch (DivideByZeroException ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Error: Please enter valid numbers.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+}
+
+
+
+session-3 q-3
+
+using System;
+
+public class Program
+{
+    // Method to reverse a string and print it
+    public static void ReverseString(string s)
+    {
+        char[] charArray = s.ToCharArray();
+        Array.Reverse(charArray);
+        string reversed = new string(charArray);
+        Console.WriteLine("Reversed string: " + reversed);
+    }
+
+    public static void Main(string[] args)
+    {
+        // Action delegate to print reversed string
+        Action<string> printReversedString = s => ReverseString(s);
+
+        // Func delegate to check palindrome
+        Func<string, bool> IsPalindrome = s =>
+        {
+            string lower = s.ToLower();
+            char[] arr = lower.ToCharArray();
+            Array.Reverse(arr);
+            string reversed = new string(arr);
+            return lower == reversed;
+        };
+
+        try
+        {
+            // Read operation
+            string operation = Console.ReadLine().ToLower();
+
+            // Read string
+            string inputString = Console.ReadLine();
+
+            // Perform operation
+            if (operation == "reverse")
+            {
+                printReversedString(inputString);
+            }
+            else if (operation == "palindrome")
+            {
+                bool result = IsPalindrome(inputString);
+                Console.WriteLine("Is palindrome: " + result);
+            }
+            else
+            {
+                Console.WriteLine("Invalid operation.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+}
+
