@@ -364,6 +364,49 @@ ________________________________________________________________________________
 
 session-3 q-1
 
+using System;
+
+public class Student
+{
+    private int grade;
+
+    // Public event triggered when grade is changed
+    public event Action<int> GradeChanged;
+
+    // Method to update grade
+    public void UpdateGrade(int newGrade)
+    {
+        grade = newGrade;
+        // Trigger the event
+        GradeChanged?.Invoke(grade);
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Student student = new Student();
+
+        // Subscribe to the GradeChanged event
+        student.GradeChanged += (int newGrade) =>
+        {
+            Console.WriteLine($"Grade changed to: {newGrade}");
+        };
+
+        // Read input and handle invalid input
+        string input = Console.ReadLine();
+
+        if (int.TryParse(input, out int grade))
+        {
+            student.UpdateGrade(grade);
+        }
+        else
+        {
+            Console.WriteLine("Invalid grade.");
+        }
+    }
+}
 
 
 session-3 q-2
