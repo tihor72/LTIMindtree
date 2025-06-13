@@ -1,0 +1,567 @@
+session-1 q-1
+
+using System;
+using System.Collections;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        ArrayList studentNames = new ArrayList();
+        string input;
+
+        while (true)
+        {
+            input = Console.ReadLine();
+
+            if (input.Equals("stop", StringComparison.OrdinalIgnoreCase))
+                break;
+
+            if (!IsValidName(input))
+                continue;
+
+            if (IsNameInCollection(studentNames, input))
+            {
+                Console.WriteLine($"{input} is already in the collection.");
+            }
+            else
+            {
+                studentNames.Add(input);
+                Console.WriteLine($"{input} added to the collection.");
+            }
+        }
+
+        DisplayStudentNames(studentNames);
+    }
+
+    private static bool IsValidName(string name)
+    {
+        return !string.IsNullOrWhiteSpace(name);
+    }
+
+    private static bool IsNameInCollection(ArrayList studentNames, string name)
+    {
+        foreach (object item in studentNames)
+        {
+            if (item.ToString().Equals(name, StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+        return false;
+    }
+
+    private static void DisplayStudentNames(ArrayList studentNames)
+    {
+        Console.WriteLine("Unique student names entered:");
+        foreach (object name in studentNames)
+        {
+            Console.WriteLine(name);
+        }
+    }
+}
+
+session-1 q-2:
+
+using System;
+using System.Collections;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        ArrayList list = new ArrayList();
+
+        while (true)
+        {
+            string command = Console.ReadLine()?.Trim().ToLower();
+
+            if (command == "exit")
+                break;
+
+            switch (command)
+            {
+                case "add":
+                    if (int.TryParse(Console.ReadLine(), out int addNum))
+                    {
+                        list.Add($"add:{addNum}");
+                    }
+                    else
+                    {
+                        list.Add("invalid");
+                    }
+                    break;
+
+                case "remove":
+                    if (int.TryParse(Console.ReadLine(), out int removeNum))
+                    {
+                        list.Add($"remove:{removeNum}");
+                    }
+                    else
+                    {
+                        list.Add("invalid");
+                    }
+                    break;
+
+                case "display":
+                    list.Add("display");
+                    break;
+
+                default:
+                    list.Add("invalid");
+                    break;
+            }
+        }
+
+        ArrayList numbers = new ArrayList();
+
+        foreach (string item in list)
+        {
+            if (item.StartsWith("add:"))
+            {
+                int num = int.Parse(item.Substring(4));
+                numbers.Add(num);
+                Console.WriteLine($"{num} added to the number list.");
+            }
+            else if (item.StartsWith("remove:"))
+            {
+                int num = int.Parse(item.Substring(7));
+                if (numbers.Contains(num))
+                {
+                    numbers.Remove(num);
+                    Console.WriteLine($"{num} removed from the number list.");
+                }
+                else
+                {
+                    Console.WriteLine($"{num} not found in the number list.");
+                }
+            }
+            else if (item == "display")
+            {
+                Console.WriteLine("Current numbers in the list:");
+                if (numbers.Count == 0)
+                {
+                    Console.WriteLine("(empty)");
+                }
+                else
+                {
+                    foreach (var num in numbers)
+                    {
+                        Console.WriteLine(num);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid Command.");
+            }
+        }
+    }
+}
+
+session-1 q-3:
+
+using System;
+using System.Collections;
+
+public class Album{
+    public string Title;
+    public string Artist;
+
+    public Album(string t,string a){
+        Title=t;
+        Artist=a;
+    }
+
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        ArrayList a = new ArrayList();
+
+        while(true){
+            string title = Console.ReadLine();
+            if(title=="quit"){
+                break;
+            }
+            else{
+                string author = Console.ReadLine();
+                if(IsValidInput(title) && IsValidInput(author)){
+                  Album ab = new Album(title,author);
+                  a.Add(ab);
+                }
+                
+            }
+        }
+
+        DisplayAlbums(a);
+    }
+
+
+    private static void DisplayAlbums(ArrayList albums){
+        for(int i=0;i<albums.Count;i++){
+            Album temp = (Album)albums[i];
+            Console.WriteLine($"Title: {temp.Title}, Artist: {temp.Artist}");
+        }
+    } 
+
+    private static bool IsValidInput(string input){
+        if(String.IsNullOrEmpty(input)){
+            return false;
+        }
+        return true;
+    }
+
+}
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+session-2 q-1
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+public class Student{
+    public int Id;
+    public string Name;
+    public string Grade;
+
+    public Student(int id,string name,string grade){
+        Id=id;
+        Name=name;
+        Grade=grade;
+    }
+
+    public Student(){
+
+    }
+}
+
+public class StudentManager{
+    public   Dictionary<int,Student> Students;
+
+    public StudentManager(){
+        Students = new Dictionary<int,Student>();
+    }
+
+    public  void AddStudent(Student student){
+        Students[student.Id]=student;
+    }
+
+    public  void DisplayStudents(){
+        Console.WriteLine("Student Information:");
+        foreach(var x in Students){
+            KeyValuePair<int,Student> temp = (KeyValuePair<int,Student>)x;
+            Console.WriteLine($"ID: {temp.Key}, Name: {temp.Value.Name}, Grade: {temp.Value.Grade}");
+        }
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        int n = Convert.ToInt32(Console.ReadLine());
+        StudentManager sm = new StudentManager();
+        for(int i=0;i<n;i++){
+            int id = Convert.ToInt32(Console.ReadLine());
+            string name = Console.ReadLine();
+            string grade = Console.ReadLine();
+            Student s = new Student(id,name,grade);
+            sm.AddStudent(s);
+        }
+
+        sm.DisplayStudents();
+    }
+}
+
+
+session-2 q-2
+
+using System;
+using System.Collections.Generic;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        
+    }
+
+    public static void AddStudent(LinkedList<string> studentList){
+       Console.Write("Enter student name to add: "); 
+       string name = Console.ReadLine();
+       studentList.AddLast(name);
+    }
+
+    public static void DisplayStudents(LinkedList<string> studentList){
+        Console.WriteLine("Students in the List:");
+        foreach(var i in studentList){
+            Console.WriteLine(i);
+        }
+    }
+
+
+    public static void UpdateStudent(LinkedList<string> studentList){
+        Console.Write("Enter the current student name to update: "); 
+        string name = Console.ReadLine();
+        LinkedListNode<string> node = studentList.Find(name);
+        if(node==null){
+            Console.WriteLine($"{name} not found int the list.");
+        }
+        else{
+            Console.WriteLine($"Enter the new student name: ");
+            string newName = Console.ReadLine();
+            node.Value = newName;
+            Console.Write($"{name} updated to {newName}.");
+        }
+    }
+
+    public static void ClearList(LinkedList<string> studentList){
+        studentList.Clear();
+    }
+
+
+    public static void DeleteStudentByName(LinkedList<string> studentList){
+        Console.Write("Enter the student name to delete: ");
+        string name = Console.ReadLine();
+        LinkedListNode<string> node = studentList.Find(name);
+        if(node==null){
+            Console.WriteLine($"{name} not found in the list.");
+        }
+        else{
+            studentList.Remove(name);
+            Console.WriteLine($"{name} removed from the list.");
+        }
+
+    }
+}
+
+
+session-2 q-3
+
+using System;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        
+    }
+
+    public static void Create(HashSet<string> hm){
+        string s = Console.ReadLine();
+        if(hm.Contains(s)){
+            Console.WriteLine($"'{s}' already exists in the set.");
+        }
+        else{
+            Console.WriteLine($"'{s}' has been added.");
+            hm.Add(s);
+        }
+    }
+
+    public static void Read(HashSet<string> hm){
+        Console.WriteLine("Current items in the set:");
+        foreach(var i in hm){
+            Console.WriteLine(i);
+        }
+    }
+
+    public static void Update(HashSet<string> hm){
+        Console.WriteLine("Enter the string to update: ");
+        string s = Console.ReadLine();
+        if(hm.Contains(s)){
+            Console.WriteLine("Enter the new string: ");
+            string newName = Console.ReadLine();
+            hm.Remove(s);
+            hm.Add(newName);
+            Console.WriteLine($"'{s}' has been updated to '{newName}'.");
+        }
+        else{
+            Console.WriteLine($"'{s}' does not exist in the set.");
+        }
+
+    }
+
+    public static void Delete(HashSet<string> hm){
+        
+        Console.Write("Enter the string to delete: ");
+        string s = Console.ReadLine();
+
+        if(hm.Contains(s)){
+            hm.Remove(s);
+            Console.WriteLine($"'{s}' has been removed.");
+        }
+        else{
+            Console.WriteLine($"'{s}' does not exist in the set.");
+        }
+
+    }
+}
+
+
+_____________________________________________________________________________________________________________________________________________________________________________
+
+session-3 q=1
+
+using System;
+using System.Linq;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        List<int> l = Console.ReadLine().Split(" ").
+                      Select(s=>Convert.ToInt32(s))
+                      .ToList();
+
+
+        List<int> odd = new List<int>();
+
+        for(int i=0;i<l.Count;i++){
+            if(l[i]%2!=0){
+                odd.Add(l[i]);
+            }
+        }
+
+        odd.Sort();
+        
+        for(int i=0;i<odd.Count;i++){
+            Console.Write(odd[i]+" ");
+        }   
+    }   
+}
+
+
+// session-3 q-1[extra]
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class Program
+{
+    private static List<int> ParseIntegers(string input)
+    {
+        List<int> result = new List<int>();
+        string[] parts = input.Split(new[] { ' ', ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (var part in parts)
+        {
+            if (int.TryParse(part, out int number))
+            {
+                result.Add(number);
+            }
+        }
+
+        return result;
+    }
+
+    private static List<int> GetOddNumbers(string input)
+    {
+        List<int> numbers = ParseIntegers(input);
+        return numbers
+            .Where(n => n % 2 != 0)
+            .OrderBy(n => n)
+            .ToList();
+    }
+
+    public static void Main()
+    {
+        string input = Console.ReadLine();
+        List<int> oddNumbers = GetOddNumbers(input);
+
+        Console.WriteLine("Odd numbers:");
+        foreach (int num in oddNumbers)
+        {
+            Console.WriteLine(num);
+        }
+    }
+}
+
+//
+
+
+session-3 q-2
+
+using System;
+
+public class Program
+{
+
+    public static void Main(string[] args)
+    {
+        List<string> l = Console.ReadLine().
+                         Split(" ")
+                         .ToList();
+
+        l.Sort(new ByLength());
+
+        foreach(var i in l){
+            Console.Write(i+" ");
+        }        
+    }
+}
+public class ByLength:Comparer<string>{
+    public override int Compare(string x,string y){
+        if(x.Length!=y.Length){
+            return y.Length.CompareTo(x.Length);
+        }
+        return 0;
+    }
+}
+
+
+
+session-3 q-3:
+
+using System;
+using System.Collections.Generic;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        string s = Console.ReadLine();
+        bool stop = false;
+        for(int i=0;i<s.Length;i++){
+            if(Char.IsWhiteSpace(s[i]) || Char.IsDigit(s[i]) || s[i]=='-'){
+                continue;
+            }
+            else{
+                stop=true;
+                break;
+            }
+        }
+
+        if(stop==true){
+            Console.WriteLine("Invalid input");
+        }
+        else{
+            List<int>  arr  = s.Split(" ").Select(s=>Convert.ToInt32(s)).ToList();
+            for(int i=0;i<arr.Count;i++){
+                arr[i]=arr[i]*arr[i];
+            }
+            arr.Sort();
+
+            for(int i=0;i<arr.Count;i++){
+                Console.Write(arr[i]+" ");
+            }
+        }
+    }
+
+
+    private static List<int> ReadIntegerList(){
+        List<int> l = new List<int>();
+        return l;
+    }
+
+    private static List<int> SquareValues(List<int> numbers){
+        List<int> l = new List<int>();
+        return l;
+    }
+
+    private static void ManualSort(List<int> list){
+
+    }
+}
