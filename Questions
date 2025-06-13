@@ -252,6 +252,58 @@ public class Program
 
 session-2 q-2
 
+using System;
+
+// Custom exception class
+public class InvalidStringException : Exception
+{
+    public InvalidStringException() : base("String must contain only alphabetic characters.") { }
+
+    public InvalidStringException(string message) : base(message) { }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        try
+        {
+            // Read input from user
+            string input = Console.ReadLine();
+
+            // Validate: Check if string contains only alphabetic characters
+            foreach (char c in input)
+            {
+                if (!char.IsLetter(c))
+                {
+                    throw new InvalidStringException();
+                }
+            }
+
+            // Count vowels (case-insensitive)
+            int vowelCount = 0;
+            string lowerInput = input.ToLower();
+            foreach (char c in lowerInput)
+            {
+                if ("aeiou".Contains(c))
+                {
+                    vowelCount++;
+                }
+            }
+
+            // Output result
+            Console.WriteLine("Number of vowels: " + vowelCount);
+        }
+        catch (InvalidStringException ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+}
 
 
 
