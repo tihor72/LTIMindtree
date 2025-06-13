@@ -310,6 +310,54 @@ public class Program
 
 session-2 q-3
 
+using System;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        try
+        {
+            // Read number of tickets
+            string ticketsInput = Console.ReadLine();
+            int numberOfTickets = int.Parse(ticketsInput);
+
+            // Validate number of tickets
+            if (numberOfTickets <= 0)
+            {
+                throw new ArgumentException("Number of tickets must be greater than 0.");
+            }
+
+            // Read price per ticket
+            string priceInput = Console.ReadLine();
+            decimal pricePerTicket = decimal.Parse(priceInput);
+
+            // Validate price per ticket
+            if (pricePerTicket <= 0)
+            {
+                throw new ArgumentException("Price per ticket must be greater than 0.");
+            }
+
+            // Calculate total cost
+            decimal totalCost = numberOfTickets * pricePerTicket;
+
+            // Output
+            Console.WriteLine("Total ticket cost: " + totalCost);
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Error: Please enter a valid number.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+}
 
 
 ______________________________________________________________________________________________________________________________________________________________________________
