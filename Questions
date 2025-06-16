@@ -364,3 +364,65 @@ Which of the following types cannot be serialized using XmlSerializer?
 
 Which serialization format should you use if you need to serialize an object that includes cyclic references?
 ✅ DataContractSerializer
+
+
+Solution 👇
+
+using System;
+using System.Collections.Generic;
+
+public class Exam{
+    private List<string> questionList=new List<string>();
+    private const int TotalQuestion=3;
+   
+    public void AddQuestion(string question){
+        if(string.IsNullOrWhiteSpace(question)){
+            throw new ArgumentException("Question cannot be null.");
+        }
+        if(questionList.Count>=TotalQuestion){
+            throw new InvalidOperationException("Cannot add more than total questions.");
+        }
+       
+        questionList.Add(question);
+    }
+   
+    public void AllQuestion(){
+        Console.WriteLine("All Questions: ");
+        foreach(string question in questionList){
+            Console.WriteLine(question);
+        }
+    }
+   
+    public void FindQuestion(string question){
+        if(questionList.Contains(question)){
+            Console.WriteLine("Question Found: "+question);
+        }else{
+            Console.WriteLine("Question Not Found.");
+        }
+    }
+}
+
+public class HelloWorld
+{
+    public static void Main(string[] args)
+    {
+        Exam exam=new Exam();
+        try{
+            Console.WriteLine("Enter comma-seperated questions:");
+           
+            string input=Console.ReadLine();
+            string[] questions=input.Split(',');
+           
+            foreach(string q in questions){
+                exam.AddQuestion(q.Trim());
+            }
+            exam.AllQuestion();
+            Console.WriteLine("Enter a questionn to find: ");
+            string search=Console.ReadLine();
+            exam.FindQuestion(search.Trim());
+        }
+        catch(Exception e){
+            Console.WriteLine("Error: "+e.Message);
+        }
+    }
+}
