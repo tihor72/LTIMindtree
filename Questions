@@ -1,3 +1,5 @@
+Session-3 q-1
+
 using System;
 using System.Collections.Generic;
 
@@ -91,3 +93,9 @@ Console.WriteLine($"Total perimeter of all shapes: {totalPerimeter:F2}");
         
     }
 }
+
+session-3 q-2:
+
+
+
+session-3 q-3:
