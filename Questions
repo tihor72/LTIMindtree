@@ -283,3 +283,84 @@ class Program
         }
     }
 }
+
+Which FileMode value will throw an exception if the file does not exist?
+✅ FileMode.Open
+
+What does the File.Exists method return in C#?
+✅ true if the file exists, false otherwise
+
+What will happen if you try to open a file for writing using FileMode.Append, but the file does not exist?
+✅ The file will be created
+
+What is the default buffer size for a BufferedStream object in C#?
+✅ 4096 bytes
+
+Which class is used for asynchronous file operations in C#?
+✅ FileStream
+
+Which exception is thrown when trying to access a file that is already in use by another process?
+✅ IOException
+
+Which class should be used to write text data to a file line by line in C#?
+✅ StreamWriter
+
+What happens if you use the FileMode.Truncate option when opening a file in C#?
+✅ The file will be opened, and all its contents will be erased
+
+Which method is used to get the size of a file in bytes in C#?
+✅ new FileInfo().Length
+
+In C#, which class is used to check and manipulate the attributes of a file (e.g., read-only, hidden)?
+✅ FileInfo
+
+Which exception is thrown if you attempt to read past the end of a file using a StreamReader?
+✅ EndOfStreamException
+
+Which namespace contains the JsonSerializer class in .NET?
+✅ System.Text.Json
+
+Which class is used to handle JSON serialization in .NET Core?
+✅ JsonSerializer
+
+What is the default format used by the DataContractSerializer for serialization?
+✅ XML
+
+Which class is used to handle SOAP serialization in .NET?
+✅ SoapFormatter
+
+Which serialization format provides the best performance for network communication?
+✅ Binary
+
+Which of the following attributes is used to map a property to a JSON key in System.Text.Json?
+✅ [JsonPropertyName]
+
+Which class is used to handle JSON serialization in .NET Core?
+✅ JsonSerializer
+
+Which of the following formats is NOT supported by the DataContractSerializer?
+✅ JSON
+
+Which method of the XmlSerializer class is used to deserialize XML data into an object?
+✅ Deserialize
+
+Which of the following classes is typically used for serializing objects into a memory stream?
+✅ BinaryFormatter
+
+Which method can be overridden to control the serialization of a class in C#?
+✅ GetObjectData
+
+Which interface is implemented to provide custom serialization for a class?
+✅ ISerializable
+
+Which serialization approach allows partial serialization of only specific fields of an object?
+✅ DataContract serialization
+
+Which method in the DataContractJsonSerializer class is used to serialize an object into a JSON string?
+✅ WriteObject
+
+Which of the following types cannot be serialized using XmlSerializer?
+✅ Classes implementing IDisposable
+
+Which serialization format should you use if you need to serialize an object that includes cyclic references?
+✅ DataContractSerializer
