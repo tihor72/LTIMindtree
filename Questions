@@ -56,3 +56,93 @@ public class HelloWorld
         }
     }
 }
+
+
+exam-
+using System;
+using System.Collections.Generic;
+
+public class Exam
+{
+    private List<string> _questionList = new List<string>();
+    private const int TotalQuestion = 6;
+
+    public List<string> QuestionList
+    {
+        get { return _questionList; }
+        set { _questionList = value; }
+    }
+
+    public void AddQuestion(string question)
+    {
+        if (string.IsNullOrWhiteSpace(question))
+        {
+            throw new ArgumentException("Question cannot be empty.");
+        }
+
+        if (QuestionList.Count >= TotalQuestion)
+        {
+            throw new InvalidOperationException("Cannot add more than 6 questions.");
+        }
+
+        QuestionList.Add(question);
+    }
+
+    public bool IsQuestionFound(string search)
+    {
+        foreach (string q in QuestionList)
+        {
+            if (q.Trim().Equals(search.Trim(), StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void ShowQuestions()
+    {
+        Console.WriteLine("The data is:");
+        foreach (string q in QuestionList)
+        {
+            Console.WriteLine(q);
+        }
+    }
+}
+
+public class HelloWorld
+{
+    public static void Main(string[] args)
+    {
+        Exam exam = new Exam();
+
+        try
+        {
+            Console.WriteLine("Enter comma-separated questions:");
+            string input = Console.ReadLine();
+            string[] questions = input.Split(',');
+
+            foreach (string q in questions)
+            {
+                exam.AddQuestion(q.Trim());
+            }
+
+            Console.WriteLine("Enter a question to find:");
+            string search = Console.ReadLine();
+
+            if (exam.IsQuestionFound(search))
+            {
+                exam.ShowQuestions();
+                Console.WriteLine("Question '" + search.Trim() + "' found.");
+            }
+            else
+            {
+                Console.WriteLine("Question '" + search.Trim() + "' not found.");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error: " + e.Message);
+        }
+    }
+}
