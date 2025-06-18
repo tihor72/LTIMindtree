@@ -206,3 +206,191 @@ namespace domaindriven.Models
 }
 
 session-2 q-2:
+
+*Movie.cs* 👇
+
+ 
+
+using System;
+
+using System.Collections.Generic;
+
+using System.Linq;
+
+using System.Text;
+
+using System.Threading.Tasks;
+
+ 
+
+namespace domaindriven.Models
+
+{
+
+    public class Movie
+
+    {
+
+        public int Id{get;set;}
+
+        public string Name {get;set;}
+
+        public int Year{get;set;}
+
+        public double Rating {get;set;}
+
+ 
+
+    }
+
+} 
+
+ 
+
+ *ConsoleApp.cs* 👇
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using domaindriven.Models;
+ 
+namespace domaindriven
+{
+    public class ConsoleApp
+    {
+        private List<Movie> movies=new List<Movie>();
+        public void Run()
+        {
+            int choice;
+            do
+            {
+                Console.WriteLine("\n Choose an action:");
+                Console.WriteLine("1. List Movies");
+                Console.WriteLine("2. Add Movies");
+                Console.WriteLine("3. Edit Movies");
+                Console.WriteLine("4. Delete Movies");
+                Console.WriteLine("5. Find Movies");
+                Console.WriteLine("0. Exit");
+                Console.WriteLine("Enter your choice: ");
+                int.TryParse(Console.ReadLine(), out choice);
+                switch(choice)
+                {
+                    case 1: ListMovies(); break;
+                    case 2: AddMovie(); break;
+                    case 3:
+                            Console.Write("Enter the Id of the movie to find: ");
+                            int.TryParse(Console.ReadLine(), out int id2);
+                            EditMovie(id2);
+                            break;
+                    case 4: Console.Write("Enter the Id of the movie to find: ");
+                         int.TryParse(Console.ReadLine(), out int id4); DeleteMovie(id4); break;
+                    case 5:
+                        Console.Write("Enter the Id of the movie to find: ");
+                         int.TryParse(Console.ReadLine(), out int id3);
+                         FindMovie(id3);
+                         break;
+                    case 0: Console.WriteLine("Exiting the Movie Console App. Goodbye!"); break;
+                    default: Console.WriteLine("Invalid choice. Try again."); break;
+                }
+            }while(choice!=0);
+        }
+        private void ListMovies()
+        {
+            if(!movies.Any())
+            {
+                Console.WriteLine("No movies in the list.");
+                return;
+            }
+            Console.WriteLine("List of Movies:");
+            foreach(var movie in movies)
+            {
+                Console.WriteLine($"Id: {movie.Id}, Name: {movie.Name}, Year: {movie.Year}, Rating: {movie.Rating} ");
+            }
+
+        }
+        private void AddMovie()
+        {
+            Movie movie=new Movie();
+            movie.Id=movies.Count>0? movies.Max(m=>m.Id) +1 :1;
+            Console.Write("Name: ");
+            movie.Name=Console.ReadLine();
+            Console.Write("Year: ");
+            int.TryParse(Console.ReadLine(), out int year);
+            movie.Year=year;
+            Console.Write("Rating: ");
+            double.TryParse(Console.ReadLine(), out double rating);
+            movie.Rating=rating;
+            movies.Add(movie);
+            Console.WriteLine("Movie added successfully!");
+        }
+
+        private void EditMovie(int id)
+        {
+            var movie=movies.FirstOrDefault(m=>m.Id==id);
+          if(movie==null)
+            {
+                Console.WriteLine($"Movie with Id {id} not found.");
+                return;
+            }
+            Console.WriteLine($"Editing details for movie with Id {id}: ");
+            Console.Write("Name: ");
+            movie.Name=Console.ReadLine();
+            Console.Write("Year: ");
+            int.TryParse(Console.ReadLine(), out int year);
+            movie.Year=year;
+            Console.Write("Rating: ");
+            double.TryParse(Console.ReadLine(), out double rating);
+            movie.Rating=rating;
+            Console.WriteLine("Movie edited successfully!");
+
+ 
+
+        }
+
+        private void DeleteMovie(int id)
+
+        {
+
+           
+
+            var movie=movies.FirstOrDefault(m=>m.Id==id);
+
+            if(movie==null)
+
+            {
+
+                Console.WriteLine($"Movie with Id {id} not found.");
+
+                return;
+
+            }
+
+            movies.Remove(movie);
+
+            Console.WriteLine($"Movie with Id {id} deleted successfully!");
+
+        }
+
+        private void FindMovie(int id)
+
+        {
+            var movie=movies.FirstOrDefault(m=>m.Id==id);
+
+            if(movie==null)
+
+            {
+
+                Console.WriteLine($"Movie with Id {id} not found.");
+
+                return;
+
+            }
+
+            Console.WriteLine($"Found Movie: Id: {movie.Id}, Name: {movie.Name}, Year: {movie.Year}, Rating: {movie.Rating:0.0}");
+
+        }
+    }
+}
