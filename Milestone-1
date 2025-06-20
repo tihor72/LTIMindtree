@@ -192,7 +192,191 @@ namespace ADO_Disconnected
     }
 }
 _____________________________________________________________________________________________________________________________________________________________________________
+Disconnected:
+using System.Data;
+using System.Data.SqlClient;
 
+namespace ADO_Disconnected
+{
+    public static class ConnectionStringProvider{
+        public static string ConnectionString{get;} = "User ID=sa;password=examlyMssql@123;server=localhost;Database=appdb;trusted_connection=false;Persist Security Info=False;Encrypt=False";
+    }
+    public class Program
+    {
+        public static string ConnectionString = ConnectionStringProvider.ConnectionString;
+        static void Main(string[] args)
+        {
+            using(SqlConnection objcon = new SqlConnection(ConnectionString))
+            {
+                objcon.Open();
+                Console.WriteLine("Welcome to Vehical Mang: ");
+                do{
+                Console.WriteLine("1 to Add, 2 to Update, 3 to Delete, 4 to Search, 5 to Display; ");
+                int operation = Convert.ToInt32(Console.ReadLine());
+
+                switch(operation){
+                    case 1:
+                        Console.WriteLine("Enter vehicle ID: ");
+                        int idAdd = Convert.ToInt32(Console.ReadLine());
+
+                        Console.WriteLine("Enter vehicle Name: ");
+                        string nameAdd = Console.ReadLine();
+
+                        Console.WriteLine("Enter vehicle type: ");
+                        string typeAdd = Console.ReadLine();
+
+                        Console.WriteLine("Enter vehicle Manufacture Year: ");
+                        int manufactureYearAdd = Convert.ToInt32(Console.ReadLine());
+
+                        AddVehicle(objcon, idAdd, nameAdd, typeAdd, manufactureYearAdd);
+                        break;
+                    
+                    case 2:
+                        Console.WriteLine("Enter vehicle ID: ");
+                        int idEdit = Convert.ToInt32(Console.ReadLine());
+
+                        Console.WriteLine("Enter vehicle Name: ");
+                        string nameEdit = Console.ReadLine();
+
+                        Console.WriteLine("Enter vehicle type: ");
+                        string typeEdit = Console.ReadLine();
+
+                        Console.WriteLine("Enter vehicle Manufacture Year: ");
+                        int manuEdit = Convert.ToInt32(Console.ReadLine());
+
+                        EditVehicle(objcon, idEdit, nameEdit, typeEdit, manuEdit);
+                        break;
+
+                    case 3:
+                        Console.WriteLine("Enter the ID: ");
+                        int iddel = Convert.ToInt32(Console.ReadLine());
+                        DeleteVehicle(objcon, iddel);
+                        break;
+
+                    case 4:
+                        Console.WriteLine("Enter the id: ");
+                        int idsearch = Convert.ToInt32(Console.ReadLine());
+                        SearchVehicle(objcon, idsearch);
+                        break;
+
+                    case 5:
+                        DisplayAllVehicle(objcon);
+                        break;
+
+                    case 6:
+                        Environment.Exit(0);
+                        return;
+
+                    default:
+                        Console.WriteLine();
+                        break;
+                    }
+                }while(true);
+            }
+        }
+
+        public static void AddVehicle(SqlConnection objcon, int id, string name, string type, int year)
+        {
+            SqlCommand objcmd = new SqlCommand("SELECT * FROM veh", objcon);
+            SqlDataAdapter objadp = new SqlDataAdapter(objcmd);
+            SqlCommandBuilder objcmdb = new SqlCommandBuilder(objadp);
+            DataSet objds = new DataSet();
+            objadp.Fill(objds);
+
+            DataRow objdradd = objds.Tables[0].NewRow();
+            objdradd[0] = id;
+            objdradd[1] = name;
+            objdradd[2] = type;
+            objdradd[3] = year;
+
+            objds.Tables[0].Rows.Add(objdradd);
+            objadp.Update(objds);
+            Console.WriteLine("Added Successfully.");
+        }
+
+        public static void EditVehicle(SqlConnection objcon, int id, string name, string type, int year)
+        {
+            SqlCommand objcmd = new SqlCommand("Select * from veh", objcon);
+            SqlDataAdapter objadp = new SqlDataAdapter(objcmd);
+            DataSet objds = new DataSet();
+            objadp.MissingSchemaAction = MissingSchemaAction.AddWithKey;
+            objadp.Fill(objds);
+
+            DataRow objdredit = objds.Tables[0].Rows.Find(id);
+            if(objdredit!=null){
+                objdredit[1] = name;
+                objdredit[2] = type;
+                objdredit[3] = year; 
+            }else{
+                Console.WriteLine("Vehical not found.");
+                return;
+            }
+            SqlCommandBuilder objcmdb = new SqlCommandBuilder(objadp);
+            objadp.Update(objds);
+        }
+
+        public static void DeleteVehicle(SqlConnection objcon, int id)
+        {
+            SqlCommand objcmd = new SqlCommand("Select * from veh", objcon);
+            SqlDataAdapter objadp = new SqlDataAdapter(objcmd);
+            SqlCommandBuilder objcmdb = new SqlCommandBuilder(objadp);
+            DataSet objds = new DataSet();
+            objadp.MissingSchemaAction = MissingSchemaAction.AddWithKey;
+            objadp.Fill(objds);
+
+            DataRow objdrdelete = objds.Tables[0].Rows.Find(id);
+            if (objdrdelete!=null){
+                objdrdelete.Delete();
+                Console.WriteLine("Deleted succefullt.");
+            }else{
+                Console.WriteLine("Vehical not found.");
+                return;
+            }
+            objadp.Update(objds);
+        }
+
+        public static void SearchVehicle(SqlConnection objcon, int id)
+        {
+            SqlCommand objcmd = new SqlCommand("Select * from veh", objcon);
+            SqlDataAdapter objadp = new SqlDataAdapter(objcmd);
+            DataSet objds = new DataSet();
+            objadp.MissingSchemaAction = MissingSchemaAction.AddWithKey;
+            objadp.Fill(objds);
+
+            DataRow objdrfind = objds.Tables[0].Rows.Find(id);
+            if(objdrfind!=null){
+                Console.WriteLine("Id: " + objdrfind[0]);
+                Console.WriteLine($"name:  {objdrfind[1]}");
+                Console.WriteLine($"type: {objdrfind[2]}");
+                Console.WriteLine("manu: " + objdrfind[3]);
+            }
+            else{
+                Console.WriteLine("Not found");
+            }
+        }
+
+        public static void DisplayAllVehicle(SqlConnection objcon)
+        {
+            SqlCommand objcmd = new SqlCommand("Select * from veh", objcon);
+            SqlDataAdapter objadp = new SqlDataAdapter(objcmd);
+            DataSet ds = new DataSet();
+            objadp.Fill(ds);
+
+            if(ds==null||ds.Tables.Count==0){
+                Console.WriteLine("No data is avilable.");
+                return;
+            }
+            foreach(DataRow row in ds.Tables[0].Rows)
+            {
+                Console.WriteLine("Id: " + row[0]);
+                Console.WriteLine($"name:  {row[1]}");
+                Console.WriteLine($"type: {row[2]}");
+                Console.WriteLine("manu: " + row[3]);
+            }
+        }
+    }
+}
+_____________________________________________________________________________________________________________________________________________________________________________
 list:
 problem:
 Implement CR operation using Employee model (List<Employee>) (Create Manager class).
