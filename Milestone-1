@@ -191,3 +191,649 @@ namespace ADO_Disconnected
         }
     }
 }
+________________________________________________________________________________________________________________________________________________________________________________
+
+if testcases didn't pass check:
+if you feel everything is correct then 
+check 
+connection string
+Table 
+drop it and create again 
+
+===================================================================
+=================LIST OF CRUD ===============
+ 
+1. public void Add(Employee employee){}
+
+--bool c = li.Exists(k=>k.EmployeeID==employee.EmployeeID);
+ 
+2. public void Display(){}
+
+--if(li.Count>0)
+ 
+3.public void SortAsc(){}
+
+--li.Sort((a,b)=>a.Name.CompareTo (b.Name));
+ 
+4. public void Update(int id,string name,int ag){}
+
+--var c = li.FirstOrDefault(k=>k.EmployeeID==id);
+ 
+5. public void DeletId(int id){}
+
+-- var c = li.FirstOrDefault(k=>k.EmployeeID==id);
+ 
+ 
+================ DICTIONARY CRUD ================
+ 
+1. public void AddPet(Employee emp){}
+
+   ---if(dict.ContainsKey(emp.EmpId))
+
+   --- Add(emp.EmpId,em)
+ 
+2.public void Display(){}
+
+        ---if(dict.Count>0)
+
+            ---foreach (var item in dict.Values)
+ 
+3. public void EditPet(int id,string name,int age)
+
+        ---if(dict.ContainsKey(id))
+
+            --var c = dict[id];
+ 
+4. public void SearchByName(string name){}
+
+        ---var c =dict.Values.Where(k=>k.Name==name)
+ 
+5. public void DeletePet(int id){}
+
+        ---if(dict.ContainsKey(id))
+ 
+using System;
+using System.Collections.Generic;
+ 
+public class Student
+{
+    public int StudentID {get;set;}
+    public string Name {get;set;}
+    public int Age {get;set;}
+ 
+    public Student(int id, string name, int age)
+    {
+        StudentID=id;
+        Name=name;
+        Age=age;
+    }
+ 
+}
+ 
+public class StudentManager
+{
+    public HashSet<Student> students {get;set;} = new HashSet<Student>();
+ 
+    public void AddStudent(Student student)
+    {
+        var stu = students.FirstOrDefault(s=>s.StudentID==student.StudentID);
+ 
+        if(stu == null){
+            students.Add(student);
+            Console.WriteLine("Student Added.");
+        }
+        else{
+            Console.WriteLine("Already exists");
+        }
+ 
+    }
+ 
+    public void DisplayStudent()
+    {
+        if(students.Count==0){
+            Console.WriteLine("No Student available to display ");
+        }
+        else{
+            foreach (var item in students)
+            {
+                Console.WriteLine($"StudentID: {item.StudentID}, Name: {item.Name}, Age: {item.Age} ");
+               
+            }
+        }
+ 
+    }
+ 
+    public void UpdateStudent(int id, string newname, int newage)
+    {
+    var upd = students.FirstOrDefault(s=>s.StudentID==id);
+    if(upd==null){
+            Console.WriteLine("No Student available to update");
+    }
+    else{
+        upd.Name=newname;
+        upd.Age=newage;
+        Console.WriteLine("successfully student details updated");
+    }
+       
+ 
+    }
+ 
+    public void SearchByName(string name)
+    {
+        var sname = students.Where(v=>v.Name==name).ToList();
+        if(sname.Count==0)
+        {
+        Console.WriteLine("No Student name available to search");  
+        return;        
+        }
+       
+       
+            foreach (var item in sname)
+            {
+                Console.WriteLine($"StudentID: {item.StudentID}, Name: {item.Name}, Age: {item.Age}");
+               
+            }
+       
+    }
+ 
+    public void SearchByID(int id)
+    {
+        var sid = students.FirstOrDefault(s=>s.StudentID==id);
+ 
+        if(sid==null)
+        {        
+        Console.WriteLine("No Student id available to search");          
+        }
+        else
+        {
+            foreach (var item in students)
+            {
+             Console.WriteLine($"StudentID: {item.StudentID}, Name: {item.Name}, Age: {item.Age}");              
+            }
+           
+        }
+ 
+       
+    }
+ 
+ 
+ 
+ 
+}
+ 
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        StudentManager manager = new StudentManager();
+ 
+        Student s = new Student(1,"sharath", 21);
+ 
+        // manager.AddStudent(s);
+        // manager.DisplayStudent();
+ 
+        // manager.UpdateStudent(1,"bharath", 23);
+        // manager.DisplayStudent();
+ 
+        // manager.SearchByID(3);
+ 
+        manager.SearchByName("Charan");
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    }
+}
+ 
+hashset
+======================================================================================= 
+using System;
+using System.Collections.Generic;
+using System.Collections;
+ 
+public class Product
+{
+    public int ProductID { get; set; }
+    public string ProductName { get; set; }
+    public int Stock { get; set; }
+    public int Price { get; set; }
+ 
+    public void DisplayProducts()
+    {
+        Console.WriteLine($"ProductID: {ProductID}, ProductName: {ProductName}, Stock: {Stock}, Price: {Price}");
+    }
+ 
+    public Product(int id, string name , int stock, int price)
+    {
+        ProductID=id;
+        ProductName=name;
+        Stock=stock;
+        Price=price;
+ 
+    }
+}
+ 
+public class ProductManager
+{
+    public  Dictionary<int, Product> products {get;set;} = new Dictionary<int, Product>();
+ 
+    public void AddProduct(Product product)
+    {
+        if(products.ContainsKey(product.ProductID)){
+            Console.WriteLine($"A Product with {product.ProductID} already exists");
+        }
+        else{
+            products.Add(product.ProductID,product);
+            Console.WriteLine("Added Successfully");
+        }
+ 
+    }
+ 
+    public void Display()
+    {
+        if(products.Count==0){
+            Console.WriteLine("No product to display.");
+        }
+        else{
+            foreach (var i in products)
+            {
+                Console.WriteLine($"ProductId: {i.Value.ProductID}, ProductName: {i.Value.ProductName}, Stock: {i.Value.Stock}, Price: {i.Value.Price}");
+               
+            }
+ 
+        }
+ 
+    }
+ 
+    public void Delete(int id)
+    {
+ 
+    }
+ 
+    public void UpdateProduct(int id, string name, int stock , int price)
+    {
+        if(products.ContainsKey(id)){
+            products[id].ProductName=name;
+            products[id].Stock=stock;
+            products[id].Price=price;
+            Console.WriteLine("successfully Updated.");
+ 
+        }
+        else{
+            Console.WriteLine($"A Product with {id} not avaliable");
+ 
+        }
+ 
+    }
+ 
+    public void SearchByName(string name)
+    {
+        var ser = products.Values.Where(s=>s.ProductName==name).ToList();
+ 
+        if(ser == null){
+            Console.WriteLine($"No Prodtct with {name} available");
+        }
+        else
+        {
+            foreach (var i in ser)
+            {
+                 Console.WriteLine($"ProductId: {i.ProductID}, ProductName: {i.ProductName}, Stock: {i.Stock}, Price: {i.Price}");              
+            }
+ 
+        }
+ 
+    }
+ 
+   
+ 
+}
+ 
+public class Program{
+    public static void Main(string[] args){
+ 
+        ProductManager manager = new ProductManager();
+        Product p = new Product(1,"laptop",100,90000);
+        manager.AddProduct(p);
+        manager.Display();
+ 
+       
+ 
+    }
+}
+ 
+Dictionary
+======================================================================================= 
+using Practice.Models;
+using System.Data.SqlClient;
+using System.Data;
+ 
+public static class ConnectionProvider
+{
+     public static string ConnectionString { get; } = "User ID=sa;password=examlyMssql@123;server=localhost;Database=appdb;trusted_connection=false;persist Security info=False;Encrypt=False";
+}
+ 
+public class Program
+{
+    public static string connectionString=ConnectionProvider.ConnectionString;
+ 
+    public static void AddVehicle(Vehicle vehicle)
+    {
+        using(SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand cmd = new SqlCommand("select * from Vehicles",connection);
+            SqlDataAdapter adapt = new SqlDataAdapter(cmd);
+            SqlCommandBuilder build = new SqlCommandBuilder(adapt);
+ 
+            DataSet ds = new DataSet();
+            adapt.Fill(ds,"Vehicles");
+            DataTable dt= new DataTable();
+            dt = ds.Tables["Vehicles"];
+            DataRow dr = dt.NewRow();
+            dr["Make"]=vehicle.Make;
+            dr["Model"]=vehicle.Model;
+            dr["Year"]=vehicle.Year;
+            dr["LastMaintenanceDate"]=vehicle.LastMaintenanceDate;
+ 
+            dt.Rows.Add(dr);
+            adapt.Update(dt);
+ 
+        }
+    }
+    public static void DeleteVehicle(int vehicleID)
+    {
+        using(SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand cmd = new SqlCommand("select * from Vehicles",connection);
+            SqlDataAdapter adapt = new SqlDataAdapter(cmd);
+            SqlCommandBuilder build = new SqlCommandBuilder(adapt);
+ 
+            DataSet ds = new DataSet();
+            adapt.Fill(ds,"Vehicles");
+            DataTable dt= new DataTable();
+            dt = ds.Tables["Vehicles"];
+            DataRow[] dr = dt.Select($"VehicleID={vehicleID}");
+            dr[0].Delete();
+ 
+            adapt.Update(dt);
+ 
+        }
+    }
+    public static void ListVehicle()
+    {
+        using(SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand cmd = new SqlCommand("select * from Vehicles",connection);
+            SqlDataAdapter adapt = new SqlDataAdapter(cmd);
+            SqlCommandBuilder build = new SqlCommandBuilder(adapt);
+ 
+            DataSet ds = new DataSet();
+            adapt.Fill(ds,"Vehicles");
+            DataTable dt= new DataTable();
+            dt = ds.Tables["Vehicles"];
+           foreach(DataRow dr in dt.Rows)
+           {
+            Console.WriteLine($"VehicleID: {dr["VehicleID"]}\tMake: {dr["Make"]}\tModel: {dr["Model"]}\tYear: {dr["Year"]}\tLastMaintenanceDate: {dr["LastMaintenanceDate"]}");
+           }
+ 
+            // adapt.Update(dt);
+ 
+        }
+    }
+    public static void Main(string[] args)
+    {
+ 
+    }
+}
+ 
+ADO without main
+==========================================================================================================
+
+ 
+Console.WriteLine("Exiting the Program...");
+ 
+Console.WriteLine("Invalid ...............................");
+ 
+if these test cases are there then you need to include these 2
+ 
+direct print statements in the main? ans:Yes
+ 
+
+if these test cases are there then you need to include these 2
+understood.
+ 
+else no need of anything if above everything is correct
+========================================================================================================
+
+
+using System;
+using System.Collections.Generic;
+ 
+public class StudentException : Exception
+{
+    public StudentException(string message):base(message)
+    {
+ 
+    }
+}
+ 
+public class Student
+{
+    public int StudentID { get; set; }
+    public string StudentName { get; set; }
+    public int StudentAge { get; set; }
+    public string StudentAddress { get; set; }
+ 
+}
+ 
+public class StudentManager
+{
+    public List<Student> students {get;set;} = new List<Student>();
+ 
+    public void AddStudent()
+    {
+        try{
+        Console.Write("Enter studentid: ");
+        int studentid = int.Parse(Console.ReadLine());
+        Console.Write("Enter studentname: ");
+        string studentname = Console.ReadLine();
+        if(string.IsNullOrWhiteSpace(studentname))
+        {
+            throw new ArgumentException("Name cannot be null , emoty or white space.");
+            return;
+        }
+ 
+       
+ 
+ 
+        Console.Write("Enter studentage: ");
+        int studentage = int.Parse(Console.ReadLine());
+        Console.Write("Enter address: ");
+        string studentaddress = Console.ReadLine();
+ 
+        Student stu = new Student();
+        stu.StudentID=studentid;
+        stu.StudentName=studentname;
+        stu.StudentAge=studentage;
+        stu.StudentAddress=studentaddress;
+ 
+        var sid = students.FirstOrDefault(s=>s.StudentID==studentid);
+ 
+        if(sid==null){
+            students.Add(stu);
+            Console.WriteLine("Successfully added.");
+        }
+        else{
+             throw new StudentException($"Student with ID: {studentid} already exists.");                
+        }
+        }
+        catch(StudentException ex){
+        Console.WriteLine(ex.Message);
+        }
+        catch(Exception e){
+            Console.WriteLine(e.Message);
+ 
+        }
+ 
+    }
+ 
+    public void Display()
+    {
+        try{
+        if(students.Count==0){
+        throw new StudentException(" No Student  found.");                
+        return;          
+        }
+        }
+        catch(StudentException ex){
+        Console.WriteLine(ex.Message);
+        }      
+ 
+        Console.WriteLine("Student Found: ");
+        foreach (var item in students)
+        {
+            Console.WriteLine($"StudentId : {item.StudentID}, StudentName : {item.StudentName}, StudentAge : {item.StudentAge}, StudentAddress : {item.StudentAddress}");
+           
+        }
+ 
+    }
+ 
+    public void UpdateStudent(int stid, string saddress)
+    {
+        var upstudent = students.FirstOrDefault(u=>u.StudentID==stid);
+       
+        try{
+        if(upstudent==null){
+            {
+             throw new StudentException($"Student with ID: {stid} not  exists.");    
+             return;  
+                   
+        }
+           
+        }
+        }
+        catch(StudentException ex)
+        {
+         Console.WriteLine(ex.Message);
+       }
+ 
+        upstudent.StudentAddress=saddress;
+        Console.WriteLine("successfully updated");        
+ 
+    }
+ 
+    public void SortId()
+    {
+        var sortid = students.OrderBy(s=>s.StudentID);
+        foreach (var item in sortid)
+        {
+        Console.WriteLine($"StudentId : {item.StudentID}, StudentName : {item.StudentName}, StudentAge : {item.StudentAge}, StudentAddress : {item.StudentAddress}");
+           
+        }
+ 
+    }
+ 
+    public void SortIdDesc()
+    {
+        var sortidd = students.OrderByDescending(s=>s.StudentID);
+        foreach (var item in sortidd)
+        {
+        Console.WriteLine($"StudentId : {item.StudentID}, StudentName : {item.StudentName}, StudentAge : {item.StudentAge}, StudentAddress : {item.StudentAddress}");
+           
+        }
+ 
+    }
+ 
+    public void SortName()
+    {
+        var sortname = students.OrderBy(s=>s.StudentName);
+ 
+        foreach (var item in sortname)
+        {
+        Console.WriteLine($"StudentId : {item.StudentID}, StudentName : {item.StudentName}, StudentAge : {item.StudentAge}, StudentAddress : {item.StudentAddress}");
+   
+        }
+ 
+    }
+ 
+    public void namestartwith()
+    {
+        Console.Write("enter a char");
+        char c = Console.ReadLine()[0];
+        var names = students.Where(s=>s.StudentName.StartsWith(c.ToString(), StringComparison.OrdinalIgnoreCase)).ToList();
+ 
+        if(names.Count==0){
+            Console.WriteLine($"No student with {c} found");
+            return;
+        }
+        foreach (var item in names)
+        {
+        Console.WriteLine($"StudentId : {item.StudentID}, StudentName : {item.StudentName}, StudentAge : {item.StudentAge}, StudentAddress : {item.StudentAddress}");
+           
+        }
+ 
+    }
+    public void endsstartwith()
+    {
+        Console.Write("enter a char");
+        char c = Console.ReadLine()[0];
+        var names1 = students.Where(s=>s.StudentName.EndsWith(c.ToString(), StringComparison.OrdinalIgnoreCase)).ToList();
+ 
+        if(names1.Count==0){
+            Console.WriteLine($"No student with {c} found");
+            return;
+        }
+        foreach (var item in names1)
+        {
+        Console.WriteLine($"StudentId : {item.StudentID}, StudentName : {item.StudentName}, StudentAge : {item.StudentAge}, StudentAddress : {item.StudentAddress}");
+           
+        }
+ 
+    }
+ 
+    public void DeleteByname(string name){
+        var del = students.Where(d=>d.StudentName.Equals(name , StringComparison.OrdinalIgnoreCase)).ToList();
+ 
+        if(del.Count==0){
+            Console.WriteLine($"Student {name} not found");
+        }
+        else{
+            foreach (var item in del)
+            {
+                students.Remove(item);
+            }
+            Console.WriteLine("DEleted successfully");
+ 
+        }
+ 
+    }
+ 
+}
+ 
+public class Program
+{
+
+    public static void Main(string[] args)
+    {
+        StudentManager manager = new StudentManager();
+        manager.AddStudent();
+        manager.Display();
+        manager.AddStudent();
+        // manager.Display();
+        // manager.UpdateStudent(1,"blr");
+        // manager.Display();
+        // manager.DeleteByname("sharath");
+        // manager.Display();
+        // manager.SortId();
+        // manager.SortIdDesc();
+        // manager.SortName();
+        // manager.namestartwith();
+        manager.endsstartwith();
+ 
+ 
+    }
+ 
+}
