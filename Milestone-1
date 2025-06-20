@@ -12,7 +12,7 @@ namespace ADO_Disconnected
             using (SqlConnection objCon = new SqlConnection("User ID=sa;password=examlyMssql@123;server=localhost;Database=appdb;trusted_connection=false;Persist Security Info=False;Encrypt=False"))
             {
                 objCon.Open();
-            }
+            
             Console.WriteLine("Welcome to Vehicle management System");
 
             do{
@@ -78,6 +78,7 @@ namespace ADO_Disconnected
                         break;
                 }
             }while(true);
+          }
         }
 
         public static void AddVehicle(SqlConnection objCon, int id, string name, string type, int year)
