@@ -191,6 +191,137 @@ namespace ADO_Disconnected
         }
     }
 }
+
+list:
+problem:
+Implement CR operation using Employee model (List<Employee>) (Create Manager class).
+
+
+
+public class Program
+{
+    public static EmployeeManager employeeManager = new EmployeeManager();
+    public static void Main(string[] args)
+    {
+       
+            Console.WriteLine("Menu:");
+            Console.WriteLine("1. Add Employee");
+            Console.WriteLine("2. Display Employees");
+            Console.WriteLine("3. Exit");
+            Console.Write("Enter your choice: ");
+
+            string choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    Console.Write("Enter Employee ID: ");
+                    int id = int.Parse(Console.ReadLine());
+
+           
+        Console.Write("Enter EmployeeName: ");
+        string name = Console.ReadLine();
+       
+
+        Console.Write("Enter Age: ");
+        int age = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter Gender: ");
+        string gender = Console.ReadLine();
+       
+
+        Console.Write("Enter Phone Number: ");
+        string phoneNumber = Console.ReadLine();
+        
+            
+
+        Employee Employee = new Employee
+        {
+            EmployeeId = id,
+            EmployeeName = name,
+            Age = age,
+            Gender = gender,
+            PhoneNumber = phoneNumber,
+          };
+
+        EmployeeManager.AddEmployee(Employee);
+                  
+                    break;
+
+                case "2":
+                    EmployeeManager.DisplayEmployees();
+                    break;
+
+                case "3":
+                    Console.WriteLine("Exiting program...");
+                    return;
+
+                default:
+                    Console.WriteLine("Invalid choice, please try again.");
+                    break;
+            }
+}
+
+ public class EmployeeManager
+    {
+        public List<Employee> Employees =new List<Employee>();
+
+        // public EmployeeManager()
+        // {
+        //     Employeess = new List<Employee>();
+        // }
+
+        public void AddEmployee(Employee inf)
+        {
+            foreach (var existingEmployee in Employees)
+            {
+                if (existingEmployee.EmployeeId == inf.EmployeeId)
+                {
+                    Console.WriteLine($"A Employees with ID {Employees.EmployeeId} already exists.");
+                    return;
+                }
+            }
+
+            Employees.Add(inf);
+            Console.WriteLine("Employee added successfully.");
+        }
+
+
+        public void DisplayEmployees()
+        {
+            if (Employees.Count == 0)
+            {
+                Console.WriteLine("No Employees available.");
+                return;
+            }
+
+            Console.WriteLine("Employee List:");
+            foreach (var inf in Employees)
+            {
+                Console.WriteLine($"Employee ID: {inf.EmployeeId}, EmployeeName: {inf.EmployeeName}, Age: {inf.Age}, Gender: {inf.Gender}, Phone Number: {inf.PhoneNumber}");
+            }
+            }
+        }
+    
+
+    public class Employee
+    {
+        public int EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
+        public int Age { get; set; }
+        public string Gender { get; set; }
+        public string PhoneNumber { get; set; }
+       
+        public Employee()
+        {
+
+        }
+
+        public void DisplayEmployeeDetails()
+        {
+            Console.WriteLine($"Employee ID: {EmployeeId}, EmployeeName: {EmployeeName}, Age: {Age}, Gender: {Gender}, Phone Number: {PhoneNumber}");
+        }
+    }
 ________________________________________________________________________________________________________________________________________________________________________________
 
 if testcases didn't pass check:
