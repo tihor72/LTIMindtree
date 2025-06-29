@@ -1,0 +1,33 @@
+Session-1 q-2
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace dotnetapp.Models
+{
+    public class Member
+    {
+        [Key]
+        public int MemberId { get; set; } // Capital 'I'
+
+        [Required]
+        public string FirstName { get; set; } // Capital 'N'
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        public DateTime DateOfBirth { get; set; }
+
+        [Required]
+        public string Address { get; set; }
+
+        [Required]
+        public string Email { get; set; }
+
+        [Required]
+        public DateTime RegistrationDate { get; set; }
+
+        [Required]
+        public decimal InitialPayment { get; set; }
+    }
+}
