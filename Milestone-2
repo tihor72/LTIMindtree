@@ -1,0 +1,202 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace YourNamespace.Models
+{
+    public class Department
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
+        public string HeadOfDepartment { get; set; }
+
+        public string Location { get; set; }
+
+        public ICollection<Employee> Employees { get; set; }
+    }
+}
+
+
+
+
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace YourNamespace.Models
+{
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
+        public string Email { get; set; }
+
+        public string Phone { get; set; }
+
+        [ForeignKey("Department")]
+        public int? DepartmentId { get; set; }
+
+        public Department Department { get; set; }
+    }
+}
+
+
+
+using Microsoft.EntityFrameworkCore;
+using YourNamespace.Models;
+
+namespace YourNamespace.Data
+{
+    public class EmployeeMgmtDbContext : DbContext
+    {
+        public EmployeeMgmtDbContext(DbContextOptions<EmployeeMgmtDbContext> options) : base(options)
+        {
+        }
+
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Department>()
+                .HasMany(d => d.Employees)
+                .WithOne(e => e.Department)
+                .HasForeignKey(e => e.DepartmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+}
+
+
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using YourNamespace.Data;
+using YourNamespace.Models;
+
+namespace YourNamespace.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class DepartmentController : ControllerBase
+    {
+        private readonly EmployeeMgmtDbContext _context;
+
+        public DepartmentController(EmployeeMgmtDbContext context)
+        {
+            _context = context;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateDepartment([FromBody] Department objDepartment)
+        {
+            if (objDepartment == null)
+                return BadRequest();
+
+            await _context.Departments.AddAsync(objDepartment);
+            await _context.SaveChangesAsync();
+            return StatusCode(201); // Created
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllDepartments()
+        {
+            var departments = await _context.Departments
+                .Include(d => d.Employees)
+                .ToListAsync();
+            return Ok(departments);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDepartment(int id)
+        {
+            var department = await _context.Departments.FindAsync(id);
+            if (department == null)
+                return NotFound();
+
+            _context.Departments.Remove(department);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+    }
+}
+
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using YourNamespace.Data;
+using YourNamespace.Models;
+
+namespace YourNamespace.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class EmployeeController : ControllerBase
+    {
+        private readonly EmployeeMgmtDbContext _context;
+
+        public EmployeeController(EmployeeMgmtDbContext context)
+        {
+            _context = context;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateEmployee([FromBody] Employee objEmployee)
+        {
+            if (objEmployee == null)
+                return BadRequest();
+
+            await _context.Employees.AddAsync(objEmployee);
+            await _context.SaveChangesAsync();
+            return StatusCode(201); // Created
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllEmployees()
+        {
+            var employees = await _context.Employees
+                .Include(e => e.Department)
+                .ToListAsync();
+            return Ok(employees);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetEmployeeById(int id)
+        {
+            var employee = await _context.Employees
+                .Include(e => e.Department)
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (employee == null)
+                return NotFound();
+
+            return Ok(employee);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEmployee(int id)
+        {
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee == null)
+                return NotFound();
+
+            _context.Employees.Remove(employee);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+    }
+}
+
+
+
+
+
+modelBuilder.Entity<Department>()
+    .HasMany(d => d.Employees)
+    .WithOne(e => e.Department)
+    .HasForeignKey(e => e.DepartmentId)
+    .OnDelete(DeleteBehavior.Cascade);
