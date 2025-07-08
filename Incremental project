@@ -1,0 +1,298 @@
+public class Course
+{
+    public int CourseId { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public int Duration { get; set; }
+    public int InstructorId { get; set; }
+}
+
+
+using System;
+using System.Collections.Generic;
+
+public class Instructor
+{
+    public int InstructorId { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public DateTime HireDate { get; set; }
+    public List<Course> Courses { get; set; } = new List<Course>();
+}
+
+
+public interface ICourseManager
+{
+    void AddCourse(int instructorId);
+    void EditCourse();
+    void DeleteCourse();
+    void ListCourses();
+    void FindCourse(string courseTitle);
+}
+
+
+public interface IInstructorManager
+{
+    void AddInstructor();
+    void ListInstructors();
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class CourseManager : ICourseManager
+{
+    private List<Course> _courses;
+    private List<Instructor> _instructors;
+
+    public CourseManager(List<Course> courses, List<Instructor> instructors)
+    {
+        _courses = courses;
+        _instructors = instructors;
+    }
+
+    public void AddCourse(int instructorId)
+    {
+        var instructor = _instructors.FirstOrDefault(i => i.InstructorId == instructorId);
+        if (instructor == null)
+        {
+            Console.WriteLine("Instructor not found.");
+            return;
+        }
+
+        var course = new Course();
+        course.CourseId = _courses.Count + 1;
+        Console.Write("Enter Course Title: ");
+        course.Title = Console.ReadLine();
+        Console.Write("Enter Description: ");
+        course.Description = Console.ReadLine();
+        Console.Write("Enter Duration: ");
+        course.Duration = int.Parse(Console.ReadLine() ?? "0");
+        course.InstructorId = instructorId;
+
+        _courses.Add(course);
+        instructor.Courses.Add(course);
+
+        Console.WriteLine("Course added successfully!");
+    }
+
+    public void EditCourse()
+    {
+        Console.Write("Enter Course Id to edit: ");
+        int id = int.Parse(Console.ReadLine() ?? "0");
+        var course = _courses.FirstOrDefault(c => c.CourseId == id);
+
+        if (course == null)
+        {
+            Console.WriteLine("Course not found.");
+            return;
+        }
+
+        Console.Write("Enter new Title: ");
+        course.Title = Console.ReadLine();
+        Console.Write("Enter new Description: ");
+        course.Description = Console.ReadLine();
+        Console.Write("Enter new Duration: ");
+        course.Duration = int.Parse(Console.ReadLine() ?? "0");
+
+        Console.WriteLine("Course updated successfully!");
+    }
+
+    public void DeleteCourse()
+    {
+        Console.Write("Enter Course Id to delete: ");
+        int id = int.Parse(Console.ReadLine() ?? "0");
+        var course = _courses.FirstOrDefault(c => c.CourseId == id);
+
+        if (course == null)
+        {
+            Console.WriteLine("Course not found.");
+            return;
+        }
+
+        _courses.Remove(course);
+
+        var instructor = _instructors.FirstOrDefault(i => i.InstructorId == course.InstructorId);
+        instructor?.Courses.Remove(course);
+
+        Console.WriteLine("Course deleted successfully!");
+    }
+
+    public void ListCourses()
+    {
+        foreach (var course in _courses)
+        {
+            var instructorName = _instructors.FirstOrDefault(i => i.InstructorId == course.InstructorId)?.Name ?? "Unknown";
+            Console.WriteLine($"ID: {course.CourseId}, Title: {course.Title}, Instructor: {instructorName}");
+        }
+    }
+
+    public void FindCourse(string courseTitle)
+    {
+        var course = _courses.FirstOrDefault(c => c.Title.Equals(courseTitle, StringComparison.OrdinalIgnoreCase));
+
+        if (course != null)
+        {
+            var instructorName = _instructors.FirstOrDefault(i => i.InstructorId == course.InstructorId)?.Name ?? "Unknown";
+            Console.WriteLine($"ID: {course.CourseId}, Title: {course.Title}, Description: {course.Description}, Instructor: {instructorName}");
+        }
+        else
+        {
+            Console.WriteLine("Course not found.");
+        }
+    }
+}
+
+
+ using System;
+using System.Collections.Generic;
+
+public class InstructorManager : IInstructorManager
+{
+    private List<Instructor> _instructors;
+
+    public InstructorManager(List<Instructor> instructors)
+    {
+        _instructors = instructors;
+    }
+
+    public void AddInstructor()
+    {
+        var instructor = new Instructor();
+        instructor.InstructorId = _instructors.Count + 1;
+
+        Console.Write("Enter Instructor Name: ");
+        instructor.Name = Console.ReadLine();
+        Console.Write("Enter Email: ");
+        instructor.Email = Console.ReadLine();
+        Console.Write("Enter Hire Date (yyyy-MM-dd): ");
+        instructor.HireDate = DateTime.Parse(Console.ReadLine() ?? "2023-01-01");
+
+        _instructors.Add(instructor);
+        Console.WriteLine("Instructor added successfully!");
+    }
+
+    public void ListInstructors()
+    {
+        foreach (var instructor in _instructors)
+        {
+            Console.WriteLine($"ID: {instructor.InstructorId}, Name: {instructor.Name}, Email: {instructor.Email}, Hire Date: {instructor.HireDate.ToShortDateString()}");
+            if (instructor.Courses.Count == 0)
+            {
+                Console.WriteLine("  No courses available for this instructor.");
+            }
+            else
+            {
+                foreach (var course in instructor.Courses)
+                {
+                    Console.WriteLine($"  - Course ID: {course.CourseId}, Title: {course.Title}");
+                }
+            }
+        }
+    }
+}
+
+
+public class CoursesBLL
+{
+    private readonly ICourseManager _courseManager;
+
+    public CoursesBLL(ICourseManager courseManager)
+    {
+        _courseManager = courseManager;
+    }
+
+    public void AddCourse(int instructorId) => _courseManager.AddCourse(instructorId);
+    public void EditCourse() => _courseManager.EditCourse();
+    public void DeleteCourse() => _courseManager.DeleteCourse();
+    public void ListCourses() => _courseManager.ListCourses();
+    public void FindCourse(string title) => _courseManager.FindCourse(title);
+}
+
+
+
+public class InstructorsBLL
+{
+    private readonly IInstructorManager _instructorManager;
+
+    public InstructorsBLL(IInstructorManager instructorManager)
+    {
+        _instructorManager = instructorManager;
+    }
+
+    public void AddInstructor() => _instructorManager.AddInstructor();
+    public void ListInstructors() => _instructorManager.ListInstructors();
+}
+
+
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        var instructors = new List<Instructor>();
+        var courses = new List<Course>();
+
+        var instructorManager = new InstructorManager(instructors);
+        var courseManager = new CourseManager(courses, instructors);
+
+        var instructorsBLL = new InstructorsBLL(instructorManager);
+        var coursesBLL = new CoursesBLL(courseManager);
+
+        bool exit = false;
+
+        while (!exit)
+        {
+            Console.WriteLine("\n=== Instructor & Course Management ===");
+            Console.WriteLine("1 -> Add Instructor");
+            Console.WriteLine("2 -> List Instructors");
+            Console.WriteLine("3 -> Add Course");
+            Console.WriteLine("4 -> List Courses");
+            Console.WriteLine("5 -> Find Course");
+            Console.WriteLine("6 -> Edit Course");
+            Console.WriteLine("7 -> Delete Course");
+            Console.WriteLine("8 -> Exit");
+            Console.Write("Choose option: ");
+            var choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    instructorsBLL.AddInstructor();
+                    break;
+                case "2":
+                    instructorsBLL.ListInstructors();
+                    break;
+                case "3":
+                    Console.Write("Enter Instructor Id: ");
+                    int id = int.Parse(Console.ReadLine() ?? "0");
+                    coursesBLL.AddCourse(id);
+                    break;
+                case "4":
+                    coursesBLL.ListCourses();
+                    break;
+                case "5":
+                    Console.Write("Enter Course Title: ");
+                    string title = Console.ReadLine();
+                    coursesBLL.FindCourse(title);
+                    break;
+                case "6":
+                    coursesBLL.EditCourse();
+                    break;
+                case "7":
+                    coursesBLL.DeleteCourse();
+                    break;
+                case "8":
+                    exit = true;
+                    break;
+                default:
+                    Console.WriteLine("Invalid option.");
+                    break;
+            }
+        }
+    }
+}
